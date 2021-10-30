@@ -1,0 +1,115 @@
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: white;
+    background-color: #242228;
+}
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+
+.play-area {
+    display: grid;
+    width: 300px;
+    height: 300px;
+}
+
+.board-size-3 {
+    grid-template-columns: auto auto auto;
+}
+
+.board-size-4 {
+    grid-template-columns: auto auto auto auto;
+}
+
+.board-size-5 {
+    grid-template-columns: auto auto auto auto auto;
+}
+
+.block {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    font-weight: bold;
+    border: 3px solid #0069d9;
+    transition: background 0.2s ease-in-out;
+}
+
+    .block:hover {
+        cursor: pointer;
+        background: #0c5460;
+    }
+
+.occupied:hover {
+    background: #ff3a3a;
+}
+
+.block_top {
+    border-top: none !important;
+}
+
+.block_left {
+    border-left: none !important;
+}
+
+.block_bottom {
+    border-bottom: none !important;
+}
+
+.block_right {
+    border-right: none !important;
+}
+
+.spot_X {
+    color:#2bff2a !important;
+}
+.spot_O {
+    color:#ff1fa6 !important;
+}

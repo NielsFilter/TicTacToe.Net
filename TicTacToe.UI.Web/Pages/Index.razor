@@ -1,0 +1,31 @@
+﻿@page "/"
+
+@inject NavigationManager NavigationManager
+
+
+<div class="d-flex justify-content-center">
+    <div>
+        <div>
+            <div class="d-flex justify-content-center m-2">
+                <h1>Tic Tac Toe</h1>
+            </div>
+            <div class="d-flex justify-content-center m-2">
+                <h4>Choose your opponent</h4>
+            </div>
+        </div>
+        <div class="mt-2">
+            <button class="btn btn-info btn-lg btn-block" @onclick="PlayRandom">Random Bot</button>
+        </div>
+        <div class="pl-4 pr-4 fixed-bottom d-flex justify-content-between">
+            <h2 class="display-2 spot_X">X</h2>
+            <div></div>
+            <h2 class="display-2 spot_O">O</h2>
+        </div>
+    </div>
+</div>
+@code {
+    private void PlayRandom()
+    {
+        NavigationManager.NavigateTo("play/random");
+    }
+}

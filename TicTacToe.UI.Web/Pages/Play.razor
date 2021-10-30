@@ -1,0 +1,198 @@
+﻿@page "/play/{Bot}/{BoardSize:int?}"
+@page "/play/{BoardSize:int?}"
+@page "/play"
+@using TicTacToe.Bots;
+@using TicTacToe.Game;
+@using TicTacToe.UI.Web.Services;
+
+<div class="d-flex justify-content-center m-2">
+    <div>
+        <div class="d-flex justify-content-center m-2">
+            <h1>@_botName</h1>
+        </div>
+        <div>
+            <div class="mb-4">
+                <button class="btn btn-info btn-lg btn-block" @onclick="RestartGameAsync">Restart Game</button>
+            </div>
+        </div>
+
+        <div class="play-area @GetBoardSizeClass()">
+            @for (var i = 0; i < _totalSpots; i++)
+            {
+                var moveIndex = i; // need to do this since the lambda captures i which gets updated
+                <div @onclick="() => MakeMove(moveIndex)" id="block_@(i)" class="@(GetCssClass(i))">@Positions[i]</div>
+            }
+        </div>
+
+        <div class="d-flex justify-content-center m-4">
+            <h4>@_playerTurnText</h4>
+            <h2 id="winner">@_winnerText</h2>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private int _totalSpots = 9;
+
+    private string _playerTurnText = "";
+    private string _winnerText;
+
+    private string[] Positions { get; set; }
+
+    [Parameter]
+    public int BoardSize { get; set; } = 3;
+
+    [Parameter]
+    public string Bot { get; set; }
+
+    private string _botName;
+
+    private readonly List<IPlayer> _players = new();
+    private WebAppGame _webAppGame;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (BoardSize is < 3 or > 5)
+        {
+            BoardSize = 3;
+        }
+        _totalSpots = BoardSize * BoardSize;
+
+        await SetupBotAsync();
+        ResetBoard();
+        await StartGameAsync();
+    }
+
+    private void GameEnded(ResultState result)
+    {
+        _playerTurnText = "";
+        if (result == ResultState.Player1Win)
+        {
+            _winnerText = "X Wins!";
+        }
+        else if (result == ResultState.Player2Win)
+        {
+            _winnerText = "O Wins!";
+        }
+        else
+        {
+            _winnerText = "Game ended in a tie";
+        }
+    }
+
+    public async Task SetupBotAsync()
+    {
+        var botPlayer = new RandomMoveBot(500);
+        _botName = "Random Bot";
+
+        _players.Add(botPlayer);
+        _players.Add(new WebHumanPlayer());
+    }
+
+    public async Task RestartGameAsync()
+    {
+        ResetBoard();
+        _players.Reverse();
+        await StartGameAsync();
+    }
+
+    public async Task StartGameAsync()
+    {
+        _webAppGame = new WebAppGame(
+            board => RedrawBoard(board.Positions),
+            GameEnded);
+
+        await _webAppGame.StartGameAsync(
+            BoardSize,
+            _players[0],
+            _players[1]);
+    }
+
+    private Task MakeMove(int move)
+    {
+        if (_webAppGame?.GameState?.PlayersTurn is not WebHumanPlayer humanPlayer)
+        {
+            // someone's being trigger happy and clicking while waiting for the bot...
+            return Task.CompletedTask;
+        }
+
+        humanPlayer.PlayerMoveTaskCompletionSource.TrySetResult(move);
+        return Task.CompletedTask;
+    }
+
+    private void ResetBoard()
+    {
+        _winnerText = "";
+        RedrawBoard(new int[_totalSpots]);
+    }
+
+    private void RedrawBoard(int[] positions)
+    {
+        Positions = positions.Select(GetSymbolForNumber).ToArray();
+
+        var playerToGo = _webAppGame?.GameState?.PlayersTurn.Type;
+        
+        if (playerToGo != null && playerToGo == PlayerTypes.Human)
+        {
+            var currentPlayerSymbol = _webAppGame?.GameState?.GetCurrentPlayersSymbol();
+            _playerTurnText = $"It's your turn ({currentPlayerSymbol})";
+        }
+        else
+        {
+            _playerTurnText = $"";
+        }
+        StateHasChanged();
+    }
+
+    private string GetSymbolForNumber(int number) =>
+        number switch
+        {
+            1 => Constants.PLAYER_1_SYMBOL,
+            2 => Constants.PLAYER_2_SYMBOL,
+            _ => ""
+        };
+
+    private string GetBoardSizeClass()
+    {
+        return $"board-size-{BoardSize}";
+    }
+
+    private string GetCssClass(int index)
+    {
+        var cssClasses = new List<string>()
+        {
+            "block"
+        };
+
+        if (index < BoardSize)
+        {
+            cssClasses.Add("block_top");
+        }
+        if (index >= _totalSpots - BoardSize)
+        {
+            cssClasses.Add("block_bottom");
+        }
+        if (index % BoardSize == 0)
+        {
+            cssClasses.Add("block_left");
+        }
+        if (index % BoardSize == BoardSize - 1)
+        {
+            cssClasses.Add("block_right");
+        }
+        
+        // add a class for the player who owns this spot
+        switch (Positions[index])
+        { 
+            case Constants.PLAYER_1_SYMBOL:
+                cssClasses.Add($"spot_{Constants.PLAYER_1_SYMBOL}");
+                break;
+            case Constants.PLAYER_2_SYMBOL:
+                cssClasses.Add($"spot_{Constants.PLAYER_2_SYMBOL}");
+                break;
+        }
+        
+        return string.Join(" ", cssClasses);
+    }
+}
