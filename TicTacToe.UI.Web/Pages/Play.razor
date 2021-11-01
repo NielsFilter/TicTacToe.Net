@@ -22,15 +22,19 @@
                 var moveIndex = i; // need to do this since the lambda captures i which gets updated
                 <div @onclick="() => MakeMove(moveIndex)" id="block_@(i)" class="@(GetCssClass(i))">@Positions[i]</div>
             }
-        </div>
 
-        <div>
-            <div class="d-flex justify-content-center mt-6">
-                <h4>@_playerTurnText</h4>
-                <h2 id="winner">@_winnerText</h2>
+
+            <div hidden="@_isGameInProgress" class="overlay center">
+                <p class="h1">@_winnerText</p>
+            </div>
+
+        </div>
+            <div>
+                <div class="d-flex justify-content-center mt-6">
+                    <h4>@_playerTurnText</h4>
+                </div>
             </div>
         </div>
-    </div>
 </div>
 
 @code {
@@ -39,6 +43,7 @@
 
     private string _playerTurnText = "";
     private string _winnerText;
+    private bool _isGameInProgress = true;
 
     private string[] Positions { get; set; }
 
@@ -68,18 +73,25 @@
 
     private void GameEnded(ResultState result)
     {
+        _isGameInProgress = false;
         _playerTurnText = "";
-        if (result == ResultState.Player1Win)
+        
+        if (result == ResultState.Draw)
         {
-            _winnerText = "X Wins!";
+            _winnerText =  "It's a draw!";
+            return;
         }
-        else if (result == ResultState.Player2Win)
+
+        // if it's currently the bots turn, then it means human won (previous move)
+        var didHumanWin = _webAppGame?.GameState?.PlayersTurn is not WebHumanPlayer humanPlayer;
+
+        if (didHumanWin)
         {
-            _winnerText = "O Wins!";
+            _winnerText = "You won!";   
         }
         else
         {
-            _winnerText = "Game ended in a tie";
+            _winnerText = "You lost!";
         }
     }
 
@@ -125,6 +137,7 @@
 
     private void ResetBoard()
     {
+        _isGameInProgress = true;
         _winnerText = "";
         RedrawBoard(new int[_totalSpots]);
     }
