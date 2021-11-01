@@ -108,8 +108,10 @@ a, .btn-link {
 }
 
 .spot_X {
-    color:#2bff2a !important;
+    color: #00ff11 !important;
+    background-color: #338d331f;
 }
 .spot_O {
     color:#ff1fa6 !important;
+    background-color: #ff1fa61f;
 }
