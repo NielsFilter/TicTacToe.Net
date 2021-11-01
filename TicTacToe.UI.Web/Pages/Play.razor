@@ -23,8 +23,7 @@
                 <div @onclick="() => MakeMove(moveIndex)" id="block_@(i)" class="@(GetCssClass(i))">@Positions[i]</div>
             }
 
-
-            <div hidden="@_isGameInProgress" class="overlay center">
+            <div hidden="@_isGameInProgress" class="overlay center @_result-message">
                 <p class="h1">@_winnerText</p>
             </div>
 
@@ -44,6 +43,7 @@
     private string _playerTurnText = "";
     private string _winnerText;
     private bool _isGameInProgress = true;
+    private string _result;
 
     private string[] Positions { get; set; }
 
@@ -78,19 +78,21 @@
         
         if (result == ResultState.Draw)
         {
+            _result = "draw";
             _winnerText =  "It's a draw!";
             return;
         }
 
         // if it's currently the bots turn, then it means human won (previous move)
-        var didHumanWin = _webAppGame?.GameState?.PlayersTurn is not WebHumanPlayer humanPlayer;
-
+        var didHumanWin = _webAppGame?.GameState?.PlayersTurn is not WebHumanPlayer;
         if (didHumanWin)
         {
+            _result = "win";
             _winnerText = "You won!";   
         }
         else
         {
+            _result = "lose";
             _winnerText = "You lost!";
         }
     }

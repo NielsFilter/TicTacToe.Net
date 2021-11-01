@@ -112,6 +112,16 @@ html, body {
     text-align: center;
 }
 
+.win-message {
+    background-color: #8cff7d99;
+}
+.lose-message {
+    background-color: #ff535399;
+}
+.draw-message {
+    background-color: #fffc8d99;
+}
+
 .center p {
     line-height: 1.5;
     display: inline-block;
