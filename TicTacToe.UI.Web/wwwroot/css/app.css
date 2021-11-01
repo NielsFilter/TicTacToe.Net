@@ -6,16 +6,6 @@ html, body {
     background-color: #242228;
 }
 
-/*a, .btn-link {*/
-/*    color: #0366d6;*/
-/*}*/
-
-/*.btn-primary {*/
-/*    color: #fff;*/
-/*    background-color: #1b6ec2;*/
-/*    border-color: #1861ac;*/
-/*}*/
-
 .content {
     padding-top: 1.1rem;
 }
@@ -78,7 +68,6 @@ html, body {
     justify-content: center;
     font-size: 4rem;
     font-weight: bold;
-    /*border: 3px solid #0069d9;*/
     transition: background 0.2s ease-in-out;
     border-radius: 5px;
     background: #0c5460;
@@ -87,28 +76,11 @@ html, body {
 
     .block:hover {
         cursor: pointer;
-        /*background: #0c5460;*/
     }
 
 .occupied:hover {
     background: #ff3a3a;
 }
-
-/*.block_top {*/
-/*    border-top: none !important;*/
-/*}*/
-
-/*.block_left {*/
-/*    border-left: none !important;*/
-/*}*/
-
-/*.block_bottom {*/
-/*    border-bottom: none !important;*/
-/*}*/
-
-/*.block_right {*/
-/*    border-right: none !important;*/
-/*}*/
 
 .spot_X {
     color: white !important;

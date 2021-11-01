@@ -85,7 +85,7 @@
 
     public void SetupBot()
     {
-        var botPlayer = new RandomMoveBot(900);
+        var botPlayer = new RandomMoveBot(500);
         _botName = "Random Bot";
 
         _players.Add(botPlayer);
@@ -166,23 +166,6 @@
         {
             "block"
         };
-
-        if (index < BoardSize)
-        {
-            cssClasses.Add("block_top");
-        }
-        if (index >= _totalSpots - BoardSize)
-        {
-            cssClasses.Add("block_bottom");
-        }
-        if (index % BoardSize == 0)
-        {
-            cssClasses.Add("block_left");
-        }
-        if (index % BoardSize == BoardSize - 1)
-        {
-            cssClasses.Add("block_right");
-        }
         
         // add a class for the player who owns this spot
         switch (Positions[index])
