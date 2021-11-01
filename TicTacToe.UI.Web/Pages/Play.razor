@@ -10,13 +10,13 @@
         <div class="d-flex justify-content-center m-2">
             <h1>@_botName</h1>
         </div>
-        @* <div> *@
-            @* <div class="mb-4"> *@
+        <div>
+            <div class="mb-4">
                 <button class="btn btn-info btn-lg btn-block" @onclick="RestartGameAsync">Restart Game</button>
-            @* </div> *@
-        @* </div> *@
+            </div>
+        </div>
 
-        <div class="play-area @GetBoardSizeClass()">
+        <div class="play-area @GetBoardSizeClass() mb-4">
             @for (var i = 0; i < _totalSpots; i++)
             {
                 var moveIndex = i; // need to do this since the lambda captures i which gets updated
@@ -24,9 +24,11 @@
             }
         </div>
 
-        <div class="d-flex justify-content-center mt-6">
-            <h4>@_playerTurnText</h4>
-            <h2 id="winner">@_winnerText</h2>
+        <div>
+            <div class="d-flex justify-content-center mt-6">
+                <h4>@_playerTurnText</h4>
+                <h2 id="winner">@_winnerText</h2>
+            </div>
         </div>
     </div>
 </div>
