@@ -20,7 +20,7 @@ namespace TicTacToe.UI.CommandLine
             for (var i = 0; i < numberOfGames; i++)
             {
                 var playGame = new ConsolePlayGame();
-                await playGame.StartGameAsync(4, players[0], players[1]);
+                await playGame.StartGameAsync(3, players[0], players[1]);
 
                 if (playGame.Winner == 0)
                 {

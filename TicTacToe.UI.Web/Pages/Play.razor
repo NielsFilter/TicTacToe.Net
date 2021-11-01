@@ -59,7 +59,7 @@
         }
         _totalSpots = BoardSize * BoardSize;
 
-        await SetupBotAsync();
+        SetupBot();
         ResetBoard();
         await StartGameAsync();
     }
@@ -81,7 +81,7 @@
         }
     }
 
-    public async Task SetupBotAsync()
+    public void SetupBot()
     {
         var botPlayer = new RandomMoveBot(500);
         _botName = "Random Bot";
