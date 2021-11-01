@@ -50,7 +50,7 @@ namespace TicTacToe.UI.CommandLine
                         }
                         else if (value == Constants.PLAYER_2)
                         {
-                            Console.ForegroundColor = ConsoleColor.Cyan;
+                            Console.ForegroundColor = ConsoleColor.Green;
                             printValue = Constants.PLAYER_2_SYMBOL;
                         }
                         else

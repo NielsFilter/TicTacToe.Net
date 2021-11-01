@@ -9,7 +9,7 @@ namespace TicTacToe.UI.CommandLine
         static async Task Main(string[] args)
         {
             var game = new ProperGame();
-            await game.PlayAsync(100, true, new RandomMoveBot(1000), new ConsoleHumanPlayer());
+            await game.PlayAsync(100, true, new RandomMoveBot(500), new ConsoleHumanPlayer());
             
             Console.ReadLine();
         }
