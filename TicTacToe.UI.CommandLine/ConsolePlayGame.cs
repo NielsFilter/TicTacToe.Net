@@ -9,24 +9,22 @@ namespace TicTacToe.UI.CommandLine
 
         protected override void GameEnded(ResultState state)
         {
-            if (state == ResultState.Draw)
+            switch (state)
             {
-                Winner = 0;
-                PrintLine("Game ended in a Draw");   
-            }
-            else if (state == ResultState.Player1Win)
-            {
-                Winner = 1;
-                PrintLine("Player 1 wins");
-            }
-            else if (state == ResultState.Player2Win)
-            {
-                Winner = 2;
-                PrintLine("Player 2 wins");
-            }
-            else
-            {
-                throw new InvalidOperationException("Game can't be done and in progress. Something went wrong...");
+                case ResultState.Draw:
+                    Winner = 0;
+                    PrintLine("Game ended in a Draw");
+                    break;
+                case ResultState.Player1Win:
+                    Winner = 1;
+                    PrintLine("Player 1 wins");
+                    break;
+                case ResultState.Player2Win:
+                    Winner = 2;
+                    PrintLine("Player 2 wins");
+                    break;
+                default:
+                    throw new InvalidOperationException("Game can't be done and in progress. Something went wrong...");
             }
         }
 
@@ -36,27 +34,27 @@ namespace TicTacToe.UI.CommandLine
             var defaultColor = Console.ForegroundColor;
             try
             {
-                int posIndex = 0;
+                var posIndex = 0;
                 for (var rowIndex = 0; rowIndex < board.Size; rowIndex++)
                 {
                     for (var colIndex = 0; colIndex < board.Size; colIndex++)
                     {
                         var value = board.Positions[posIndex];
                         string printValue;
-                        if (value == Constants.PLAYER_1)
+                        switch (value)
                         {
-                            Console.ForegroundColor = ConsoleColor.Magenta;
-                            printValue = Constants.PLAYER_1_SYMBOL;
-                        }
-                        else if (value == Constants.PLAYER_2)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            printValue = Constants.PLAYER_2_SYMBOL;
-                        }
-                        else
-                        {
-                            // Nothing picked on that spot yet
-                            printValue = " ";
+                            case Constants.PLAYER_1:
+                                Console.ForegroundColor = ConsoleColor.Magenta;
+                                printValue = Constants.PLAYER_1_SYMBOL;
+                                break;
+                            case Constants.PLAYER_2:
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                printValue = Constants.PLAYER_2_SYMBOL;
+                                break;
+                            default:
+                                // Nothing picked on that spot yet
+                                printValue = " ";
+                                break;
                         }
 
                         Print($"{printValue}");
