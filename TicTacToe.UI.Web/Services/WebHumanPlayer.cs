@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using TicTacToe.Bots;
 using TicTacToe.Game;
 
 namespace TicTacToe.UI.Web.Services

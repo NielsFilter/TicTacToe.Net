@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
+using TicTacToe.Game;
 
-namespace TicTacToe.Game
+namespace TicTacToe.Bots
 {
     public abstract class HumanPlayer : IPlayer
     {
