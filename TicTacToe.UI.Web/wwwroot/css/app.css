@@ -91,27 +91,6 @@ html, body {
     background-color: #ff1fa6d0 !important;
 }
 
-.overlay{
-    background-color: #EEEEEEbb;
-    position: absolute;
-    z-index:100;
-}
-
-.center {
-    margin-top: 130px;
-    /*margin-bottom: 130px;*/
-    /*height: 330px;*/
-    width: 400px;
-    margin-left: -38px;
-    /*margin-right: -100px;*/
-    /*border: 3px solid green;*/
-    /*text-align: center;*/
-
-    line-height: 70px;
-    height: 70px;
-    text-align: center;
-}
-
 .win-message {
     background-color: #8cff7d99;
 }
@@ -119,13 +98,5 @@ html, body {
     background-color: #ff535399;
 }
 .draw-message {
-    background-color: #fffc8d99;
-}
-
-.center p {
-    line-height: 1.5;
-    display: inline-block;
-    vertical-align: middle;
-    color: black;
-    font-weight: bold;
+    background-color: #ffb04e99;
 }
