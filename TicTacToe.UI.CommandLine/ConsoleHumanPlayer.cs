@@ -35,17 +35,7 @@ namespace TicTacToe.UI.CommandLine
             {
                 throw new InvalidOperationException($"Expected format is an int from 1 to {numPositions}");
             }
-
-            if (boardSize == 3)
-            {
-                // easier to use numpad to match blocks:            
-                // 7 8 9
-                // 4 5 6
-                // 1 2 3
-                return numPositions - pos - 2;
-            }
             
-            // Since we're not using board size of 3, the numpad doesn't really work. So let's use 1 - x
             return pos - 1;
         }
     }

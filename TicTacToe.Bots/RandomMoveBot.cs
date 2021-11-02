@@ -24,8 +24,10 @@ namespace TicTacToe.Bots
             
             if (_turnDelay is > 0)
             {
+                // This delay is nice since the bot plays to quick after a human, it's easy to miss their move 
                 await Task.Delay(_turnDelay.Value);   
             }
+            
             return allAvailableMoves.ElementAt(randomIndex);
         }
 
