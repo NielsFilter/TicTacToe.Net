@@ -30,8 +30,9 @@ namespace TicTacToe.UI.Web.Pages
         
         protected override async Task OnInitializedAsync()
         {
-            if (BoardSize is < 3 or > 5)
+            if (BoardSize != 3)
             {
+                // for now the ui just caters for a 3x3 TicTacToe. Even though setting this to 4 or 5 should work
                 BoardSize = 3;
             }
 
