@@ -84,6 +84,11 @@ namespace TicTacToe.UI.CommandLine
             }
         }
 
+        protected override void IllegalMove(int move)
+        {
+            PrintLine($"Move {move} is not legal. Try again");
+        }
+
         private void PrintLine(string message)
         {
             Console.WriteLine(message);
@@ -92,11 +97,6 @@ namespace TicTacToe.UI.CommandLine
         private void Print(string message)
         {
             Console.Write(message);
-        }
-
-        protected override void IllegalMove(int move)
-        {
-            Console.WriteLine($"Move {move} is not legal. Try again");
         }
     }
 }
