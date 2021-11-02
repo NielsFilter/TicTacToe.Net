@@ -7,7 +7,29 @@ namespace TicTacToe.Game
     public class Board
     {
         public int Size { get; }
+        
+        /// <summary>
+        /// Indexes: 0 | 1 | 2
+        ///          ---------
+        ///          3 | 4 | 5
+        ///          ---------
+        ///          6 | 7 | 8
+        ///
+        /// Values: 0: Open spot
+        ///         1: Player 1 spot (X)
+        ///         2: Player 2 spot (O)
+        /// 
+        /// </summary>
+        /// <example>
+        /// [1,0,2,0,0,0,0,0,0] means:
+        ///  X |  | O
+        ///  ---------
+        ///    |  | 
+        ///  ---------
+        ///    |  | 
+        /// </example>
         public int[] Positions { get; private init; }
+        
         public List<int> AvailablePositions { get; private set; } = new();
         
         public Board(int boardSize)
