@@ -7,6 +7,7 @@ namespace TicTacToe.Game
     {
         private readonly IPlayer _player1;
         private readonly IPlayer _player2;
+        
         public IPlayer PlayersTurn { get; private set; }
         public List<string> AllStates { get; private init; }
         public Board Board { get; private init; }

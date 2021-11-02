@@ -51,7 +51,7 @@ namespace TicTacToe.Game
             _diagIndexes.Add(forwardSlashDiag);
         }
         
-        public ResultState GetResultState(GameState gameState)
+        public ResultState GetResult(GameState gameState)
         {
             // Let's check the rows, columns and diagonals for a winner.
             var resultState = CheckRowsForWinner(gameState); 

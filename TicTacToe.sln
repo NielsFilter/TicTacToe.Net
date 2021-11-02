@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Game", "TicTacToe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Bots", "TicTacToe.Bots\TicTacToe.Bots.csproj", "{22AF569E-CA25-4FD6-9A6A-70186B7D3556}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{9EE21D68-FE3B-4020-9404-3E503D4E978F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.UI.Web", "TicTacToe.UI.Web\TicTacToe.UI.Web.csproj", "{B5C408AB-2FFF-41C2-A9B9-2E9999A6F16E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.UI.CommandLine", "TicTacToe.UI.CommandLine\TicTacToe.UI.CommandLine.csproj", "{DBEE19C4-2DFA-45C6-8DE0-F78380FDF7E4}"
@@ -40,8 +38,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B5C408AB-2FFF-41C2-A9B9-2E9999A6F16E} = {9EE21D68-FE3B-4020-9404-3E503D4E978F}
-		{DBEE19C4-2DFA-45C6-8DE0-F78380FDF7E4} = {9EE21D68-FE3B-4020-9404-3E503D4E978F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E310596C-7C04-4A10-B523-EA27527A181D}

@@ -12,16 +12,17 @@ namespace TicTacToe.Game
         protected abstract void IllegalMove(int move);
         
         public GameState? GameState { get; private set; }
+        
         public async Task StartGameAsync(int boardSize, IPlayer player1, IPlayer player2)
         {
+            var resultChecker = new ResultChecker(boardSize);
             GameState = new GameState(boardSize, player1, player2);
-            var gameplay = new ResultChecker(boardSize);
             
             RedrawBoard(GameState.Board);
 
             while (true)
             {
-                var result = gameplay.GetResultState(GameState);
+                var result = resultChecker.GetResult(GameState);
                 if (result != ResultState.InProgress)
                 {
                     GameEnded(result);
