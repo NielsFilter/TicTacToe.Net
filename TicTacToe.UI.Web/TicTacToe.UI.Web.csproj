@@ -31,4 +31,10 @@
       <Compile Remove="ConnectionSettings.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="wwwroot\local.settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
