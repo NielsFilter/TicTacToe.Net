@@ -8,7 +8,7 @@ namespace TicTacToe.Game
         PlayerTypes Type { get; }
         
         Task<int> MakeMove(GameState state);
-        void GameEnded(GameState state, ResultState result, int myNumber);
+        void GameEnded(GameState state, ResultState result, int myNumber) { }
     }
 
     public enum PlayerTypes

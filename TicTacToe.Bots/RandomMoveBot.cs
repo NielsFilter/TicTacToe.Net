@@ -30,7 +30,5 @@ namespace TicTacToe.Bots
             
             return allAvailableMoves.ElementAt(randomIndex);
         }
-
-        public void GameEnded(GameState state, ResultState result, int myNumber) { }
     }
 }

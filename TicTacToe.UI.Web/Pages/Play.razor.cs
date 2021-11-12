@@ -19,13 +19,12 @@ namespace TicTacToe.UI.Web.Pages
 
         private readonly List<IPlayer> _players = new();
         private string _playerTurnText = "";
-        private string _botName = "";
         private string[] _positions = Array.Empty<string>();
-        
+        private string _botName = "";
         private string _winnerText = "";
         private bool _isGameInProgress = true;
         private string _result = "";
-
+        private bool _isOnline = true;
         private int _totalSpots;
         private WebAppGame? _webAppGame;
         private bool _isInitialized;
@@ -84,7 +83,7 @@ namespace TicTacToe.UI.Web.Pages
             if (_botName.Equals(PlayerTypes.MiniMax.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 _botName = "MiniMax Bot";
-                botPlayer = new WebMiniMaxBot(_httpClient);
+                botPlayer = new WebMiniMaxBot(_httpClient, SetOnlineState);
             }
             else
             {
@@ -94,6 +93,12 @@ namespace TicTacToe.UI.Web.Pages
 
             _players.Add(botPlayer);
             _players.Add(new WebHumanPlayer());
+        }
+
+        private void SetOnlineState(bool isOnline)
+        {
+            _isOnline = isOnline;
+            StateHasChanged();
         }
 
         private async Task RestartGameAsync()

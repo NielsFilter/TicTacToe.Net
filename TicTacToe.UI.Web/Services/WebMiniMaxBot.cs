@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TicTacToe.Bots;
 using TicTacToe.Game;
 
 namespace TicTacToe.UI.Web.Services
@@ -20,33 +19,54 @@ namespace TicTacToe.UI.Web.Services
     ///
     /// As a fallback, if the server is offline or something goes wrong, let the client work it out (it just means waiting really long)
     /// </summary>
-    public class WebMiniMaxBot : MiniMaxBot
+    public class WebMiniMaxBot : IPlayer
     {
         private readonly HttpClient _httpClient;
+        private readonly Action<bool> _onlineStateChanged;
 
-        public WebMiniMaxBot(HttpClient httpClient)
+        public WebMiniMaxBot(HttpClient httpClient, Action<bool> onlineStateChanged)
         {
             _httpClient = httpClient;
+            _onlineStateChanged = onlineStateChanged;
         }
 
-        public override async Task<int> MakeMove(GameState state)
-        {
-            for (var i = 0; i < 3; i++)
-            {
-                try
-                {
-                    return await AskServerMiniMaxAsync(state);
-                }
-                catch (Exception)
-                {
-                    // oh no, our server bot abandoned us...
-                    // Retry, otherwise just process miniMax locally (#sameCodeOnClient #gottaLoveBlazor)
-                    await Task.Delay(1000);
-                }
-            }
+        public PlayerTypes Type => PlayerTypes.MiniMax;
 
-            // process minimax algorithm on the client as a fallback
-            return await base.MakeMove(state);
+        public async Task<int> MakeMove(GameState state)
+        {
+            var isOnline = true;
+            while (true)
+            {
+                for (var i = 0; i < 3; i++)
+                {
+                    try
+                    {
+                        var move = await AskServerMiniMaxAsync(state);
+                        if (!isOnline)
+                        {
+                            // connection was down, but we're back...
+                            _onlineStateChanged(true);   
+                        }
+
+                        return move;
+                    }
+                    catch (Exception e)
+                    {
+                        if (isOnline)
+                        {
+                            isOnline = false;
+                            _onlineStateChanged(isOnline);
+                        }
+
+                        // oh no, our server bot abandoned us...
+                        // Retry, otherwise just process miniMax locally (#sameCodeOnClient #gottaLoveBlazor)
+                        await Task.Delay(1000);
+                    }
+                }
+
+                // wait a bit before trying to connect again
+                await Task.Delay(5_000);
+            }
         }
 
         private async Task<int> AskServerMiniMaxAsync(GameState state)

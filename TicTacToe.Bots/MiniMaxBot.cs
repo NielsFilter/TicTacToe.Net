@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TicTacToe.Game;
@@ -7,13 +6,10 @@ namespace TicTacToe.Bots
 {
     public class MiniMaxBot : IPlayer
     {
-        private readonly int? _turnDelay;
         private readonly ResultChecker _resultChecker;
-        private const double WEIGHT = 1d;
 
-        public MiniMaxBot(int boardSize = 3, int? turnDelay = null)
+        public MiniMaxBot(int boardSize = 3)
         {
-            _turnDelay = turnDelay;
             _resultChecker = new ResultChecker(boardSize);
         }
 
@@ -24,86 +20,78 @@ namespace TicTacToe.Bots
             await Task.Yield();
 
             var myNumber = state.GetCurrentPlayersNumber();
+            var clonedState = state.Clone();
+            var availableMoves = clonedState.Board.AvailablePositions;
+            
+            var topMove = availableMoves.First();
+            double? bestMove = null;
 
-            var clonedGameState = state.Clone();
-
-            var topMove = await ChooseNextBestMove(myNumber, clonedGameState);
-
-            if (_turnDelay is > 0)
+            // go through all available moves and get a minmax score for each. Then chose the best move.
+            foreach (var move in availableMoves)
             {
-                await Task.Delay(_turnDelay.Value);
+                var score = GetMinMaxScoreForMovesRecursive(myNumber, move, clonedState.Clone(), 1);
+                if (score <= bestMove)
+                {
+                    continue;
+                }
+
+                // new best move. Capture the move and the score
+                bestMove = score;
+                topMove = move;
             }
 
             return topMove;
         }
 
-        public void GameEnded(GameState state, ResultState result, int myNumber) { }
-
-        private Task<int> ChooseNextBestMove(int myNumber, GameState state)
-        {
-            var availableMoves = state.Board.AvailablePositions;
-            var topMove = availableMoves.First();
-            double? bestMove = null;
-
-            foreach (var move in availableMoves)
-            {
-                var score = GetMinMaxScoreForMovesRecursive(myNumber, move, state.Clone(), 1);
-                if (state.GetCurrentPlayersNumber() == myNumber)
-                {
-                    if (bestMove == null || score > bestMove.Value)
-                    {
-                        bestMove = score;
-                        topMove = move;
-                    }
-                }
-            }
-
-            if (bestMove == null)
-            {
-                throw new InvalidOperationException("Something went wrong");
-            }
-            return Task.FromResult(topMove);
-        }
-
         private double GetMinMaxScoreForMovesRecursive(int myNumber, int move, GameState state, int depth)
         {
+            // make the move on the cloned board
             state.ApplyMove(move);
+            
+            // check if the game is over. If it is, return the score
             var result = _resultChecker.GetResult(state);
             switch (result)
             {
                 case ResultState.Draw:
-                    return Draw();
+                    return DrawScore();
                 case ResultState.Player1Win:
-                    return CheckWinOrLose(myNumber, Constants.PLAYER_1, depth);
+                    return WinOrLoseScore(myNumber, Constants.PLAYER_1, depth);
                 case ResultState.Player2Win:
-                    return CheckWinOrLose(myNumber, Constants.PLAYER_2, depth);
+                    return WinOrLoseScore(myNumber, Constants.PLAYER_2, depth);
             }
 
-            var nextAvailableMoves = state.Board.AvailablePositions;
+            // The game is not done yet. Now we'll look at all the next available spots and check all the possible scores.
+            // We'll continue to do so recursively until we get a result for each position
+            
             depth++;
-
+            var nextAvailableMoves = state.Board.AvailablePositions;
             var scores = new double[nextAvailableMoves.Count];
-            var isMaximisingPlayerTurn = state.GetCurrentPlayersNumber() == myNumber;
-
-
+            
             for (var i = 0; i < nextAvailableMoves.Count; i++)
             {
                 var score = GetMinMaxScoreForMovesRecursive(myNumber, nextAvailableMoves[i], state.Clone(), depth);
                 scores[i] = score;
             }
 
-            return isMaximisingPlayerTurn ? scores.Max() : scores.Min();
+            // here we check if it's the maximizing player (minimax bot) turn. If so, pick the best score.
+            // if it's not (i.e. the opponent's turn), assume that they will choose the best possible option (lowest score)
+            var isMyTurn = state.GetCurrentPlayersNumber() == myNumber;
+            return isMyTurn ? scores.Max() : scores.Min();
         }
 
-        private double CheckWinOrLose(int myNumber, int winningPlayer, int depth)
+        // Scoring:
+        //  - Draw is meh... 0 points
+        //  - A Loss is bad: -10. But a loss much later in the game is better than an immediate loss, so we add depth
+        //  - A Win is great: +10. An immediate win trumps a later win. So we subtract the depth from the win score
+        private static double DrawScore() => 0;
+        private static double LoseScore(int depth) => -10 + depth;
+        private static double WinScore(int depth) => 10 - depth;
+        
+        private static double WinOrLoseScore(int myNumber, int winningPlayer, int depth)
         {
             return myNumber == winningPlayer
-                ? Win(depth)
-                : Lose(depth);
+                ? WinScore(depth)
+                : LoseScore(depth);
         }
-
-        private double Draw() => 0;
-        private double Lose(int depth) => -10 + (depth * WEIGHT);
-        private double Win(int depth) => 10 - (depth * WEIGHT);
     }
 }
