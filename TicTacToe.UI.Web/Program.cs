@@ -13,7 +13,7 @@ namespace TicTacToe.UI.Web
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            var functionUrl = "https://tictactoe-server.azurewebsites.net"; //.Configuration["functionUrl"];
+            var functionUrl = builder.Configuration["FunctionUrl"];
             if (functionUrl == null)
             {
                 throw new InvalidOperationException(functionUrl);
