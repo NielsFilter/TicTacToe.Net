@@ -8,16 +8,21 @@ namespace TicTacToe.Game
         private readonly List<int[]> _rowIndexes;
         private readonly List<int[]> _colIndexes;
         private readonly List<int[]> _diagIndexes;
-        
+
         public ResultChecker(int boardSize)
         {
+            if (boardSize == 0)
+            {
+                boardSize = 3;
+            }
+
             // Well this is where things get a touch awkward. I went with spots being ints rather than tuples.
             // I found it easier to work with in most cases and more memory efficient. But as  most decisions,
             // you gain in one place and pay for it in another. This is where we have to pay back a bit.
             //
             // Let's break up the int array into arrays representing rows cols & diags. This way it makes it easy to
             // Check for a winner as you can just check if all in that array are the same player.
-            
+
             _rowIndexes = new List<int[]>();
             _colIndexes = new List<int[]>();
             _diagIndexes = new List<int[]>();
@@ -36,17 +41,17 @@ namespace TicTacToe.Game
                     row[j] = (i * boardSize) + j;
                     col[j] = (j * boardSize) + i;
                 }
-                
+
                 // e.g. with board size of 3
                 // back slash(\): 0,4,8
                 // forward slash(/): 6,4,2 
                 backSlashDiag[i] = i * boardSize + i;
                 forwardSlashDiag[i] = (i * boardSize) + (boardSize - 1) - i;
-                
+
                 _colIndexes.Add(col);
                 _rowIndexes.Add(row);
             }
-            
+
             _diagIndexes.Add(backSlashDiag);
             _diagIndexes.Add(forwardSlashDiag);
         }
