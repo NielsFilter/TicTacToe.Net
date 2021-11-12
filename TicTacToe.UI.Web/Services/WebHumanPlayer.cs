@@ -6,7 +6,7 @@ namespace TicTacToe.UI.Web.Services
 {
     public class WebHumanPlayer : HumanPlayer
     {
-        public TaskCompletionSource<int> PlayerMoveTaskCompletionSource;
+        public TaskCompletionSource<int>? PlayerMoveTaskCompletionSource;
         public override async Task<int> MakeMove(GameState state)
         {
             PlayerMoveTaskCompletionSource = new TaskCompletionSource<int>();

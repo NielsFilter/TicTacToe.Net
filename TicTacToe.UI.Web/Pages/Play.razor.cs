@@ -68,12 +68,12 @@ namespace TicTacToe.UI.Web.Pages
             if (didHumanWin)
             {
                 _result = "win";
-                _winnerText = "You won!";
+                _winnerText = "You win!";
             }
             else
             {
                 _result = "lose";
-                _winnerText = "You lost!";
+                _winnerText = "You lose...";
             }
         }
 
@@ -89,7 +89,7 @@ namespace TicTacToe.UI.Web.Pages
             else
             {
                 _botName = "Random Bot";
-                botPlayer = new RandomMoveBot(500);
+                botPlayer = new RandomMoveBot(300);
             }
 
             _players.Add(botPlayer);
@@ -123,7 +123,7 @@ namespace TicTacToe.UI.Web.Pages
                 return Task.CompletedTask;
             }
 
-            humanPlayer.PlayerMoveTaskCompletionSource.TrySetResult(move);
+            humanPlayer.PlayerMoveTaskCompletionSource?.TrySetResult(move);
             return Task.CompletedTask;
         }
 
