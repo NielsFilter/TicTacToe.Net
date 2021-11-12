@@ -8,7 +8,9 @@ namespace TicTacToe.UI.Web.Services
         private readonly Action<Board> _redrawBoardAction;
         private readonly Action<ResultState> _gameEndedAction;
 
-        public WebAppGame(Action<Board> redrawBoardAction, Action<ResultState> gameEndedAction)
+        public WebAppGame(
+            Action<Board> redrawBoardAction,
+            Action<ResultState> gameEndedAction)
         {
             _redrawBoardAction = redrawBoardAction;
             _gameEndedAction = gameEndedAction;

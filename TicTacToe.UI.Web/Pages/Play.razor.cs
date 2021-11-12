@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,22 +15,29 @@ namespace TicTacToe.UI.Web.Pages
         public int BoardSize { get; set; } = 3;
 
         [Parameter]
-        public string Bot { get; set; }
+        public string? Bot { get; set; }
 
         private readonly List<IPlayer> _players = new();
         private string _playerTurnText = "";
-        private string _botName;
-        private string[] _positions;
+        private string _botName = "";
+        private string[] _positions = Array.Empty<string>();
         
-        private string _winnerText;
+        private string _winnerText = "";
         private bool _isGameInProgress = true;
-        private string _result;
-        
+        private string _result = "";
+
         private int _totalSpots;
-        private WebAppGame _webAppGame;
-        
+        private WebAppGame? _webAppGame;
+        private bool _isInitialized;
+
         protected override async Task OnInitializedAsync()
         {
+            if (_isInitialized)
+            {
+                return;
+            }
+            _isInitialized = true;
+
             if (BoardSize != 3)
             {
                 // for now the ui just caters for a 3x3 TicTacToe. Even though setting this to 4 or 5 should work
@@ -71,8 +79,18 @@ namespace TicTacToe.UI.Web.Pages
 
         private void SetupBot()
         {
-            var botPlayer = new RandomMoveBot(500);
-            _botName = "Random Bot";
+            IPlayer botPlayer;
+            _botName = Bot ?? "";
+            if (_botName.Equals(PlayerTypes.MiniMax.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                _botName = "MiniMax Bot";
+                botPlayer = new WebMiniMaxBot(_httpClient);
+            }
+            else
+            {
+                _botName = "Random Bot";
+                botPlayer = new RandomMoveBot(500);
+            }
 
             _players.Add(botPlayer);
             _players.Add(new WebHumanPlayer());

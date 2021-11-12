@@ -26,11 +26,12 @@ namespace TicTacToe.UI.CommandLine
                 {
                     _gameResults.Add("Draw");
                 }
-
-                var winningPlayer = players[playGame.Winner - 1];
-                
-                // record the winning type
-                _gameResults.Add(winningPlayer.GetName());
+                else
+                {
+                    // record the winning type
+                    var winningPlayer = players[playGame.Winner - 1];
+                    _gameResults.Add(winningPlayer.GetName());
+                }
 
                 if (shouldRotate)
                 {

@@ -14,6 +14,7 @@ namespace TicTacToe.Game
     public enum PlayerTypes
     {
         Human,
-        RandomBot
+        RandomBot,
+        MiniMax
     }
 }

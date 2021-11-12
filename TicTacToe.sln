@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Game", "TicTacToe.Game\TicTacToe.Game.csproj", "{F27EE608-AE49-4217-870E-32BF6A93905F}"
 EndProject
@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Bots", "TicTacToe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.UI.Web", "TicTacToe.UI.Web\TicTacToe.UI.Web.csproj", "{B5C408AB-2FFF-41C2-A9B9-2E9999A6F16E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.UI.CommandLine", "TicTacToe.UI.CommandLine\TicTacToe.UI.CommandLine.csproj", "{DBEE19C4-2DFA-45C6-8DE0-F78380FDF7E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.UI.CommandLine", "TicTacToe.UI.CommandLine\TicTacToe.UI.CommandLine.csproj", "{DBEE19C4-2DFA-45C6-8DE0-F78380FDF7E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.UI.WebServer", "TicTacToe.UI.WebServer\TicTacToe.UI.WebServer.csproj", "{6158E610-F3BC-4AC4-8C7A-4123B10BEA9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,11 +35,13 @@ Global
 		{DBEE19C4-2DFA-45C6-8DE0-F78380FDF7E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBEE19C4-2DFA-45C6-8DE0-F78380FDF7E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBEE19C4-2DFA-45C6-8DE0-F78380FDF7E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6158E610-F3BC-4AC4-8C7A-4123B10BEA9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6158E610-F3BC-4AC4-8C7A-4123B10BEA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6158E610-F3BC-4AC4-8C7A-4123B10BEA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6158E610-F3BC-4AC4-8C7A-4123B10BEA9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E310596C-7C04-4A10-B523-EA27527A181D}

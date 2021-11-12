@@ -5,9 +5,10 @@ namespace TicTacToe.Game
 {
     public class GameState
     {
-        private readonly IPlayer _player1;
-        private readonly IPlayer _player2;
-        
+        public IPlayer Player1 { get; }
+        public IPlayer Player2 { get; }
+        private readonly bool shouldTrackStates;
+
         public IPlayer PlayersTurn { get; private set; }
         public List<string> AllStates { get; private init; }
         public Board Board { get; private init; }
@@ -17,9 +18,9 @@ namespace TicTacToe.Game
             IPlayer player1,
             IPlayer player2)
         {
-            _player1 = player1;
-            _player2 = player2;
-            
+            Player1 = player1;
+            Player2 = player2;
+
             PlayersTurn = player1;
             Board = new Board(boardSize);
             AllStates = new List<string>
@@ -50,29 +51,29 @@ namespace TicTacToe.Game
         {
             var playerNumber = GetCurrentPlayersNumber();
             Board.ApplyMove(move, playerNumber);
-            AllStates.Add(Board.GetState());
+                AllStates.Add(Board.GetState());
         }
 
         public void GameEnded(ResultState result)
         {
             // Calling GameEnded on the players themselves, allows opportunity to train based on how the game concluded
-            _player1.GameEnded(this, result, Constants.PLAYER_1);
-            _player2.GameEnded(this, result, Constants.PLAYER_2);
+            Player1.GameEnded(this, result, Constants.PLAYER_1);
+            Player2.GameEnded(this, result, Constants.PLAYER_2);
         }
         
         private void UpdatePlayersTurn() =>
             PlayersTurn =
-                PlayersTurn == _player1
-                    ? _player2
-                    : _player1;
+                PlayersTurn == Player1
+                    ? Player2
+                    : Player1;
 
         public int GetCurrentPlayersNumber() =>
-            PlayersTurn == _player1
+            PlayersTurn == Player1
                 ? Constants.PLAYER_1
                 : Constants.PLAYER_2;
         
         public string GetCurrentPlayersSymbol() =>
-            PlayersTurn == _player1
+            PlayersTurn == Player1
                 ? Constants.PLAYER_1_SYMBOL
                 : Constants.PLAYER_2_SYMBOL;
         
@@ -85,7 +86,7 @@ namespace TicTacToe.Game
         /// <returns>Deep copy of the current game state</returns>
         public GameState Clone()
         {
-            var clonedState = new GameState(Board.Size, _player1, _player2)
+            var clonedState = new GameState(Board.Size, Player1, Player2)
             {
                 PlayersTurn = PlayersTurn,
                 AllStates = new List<string>(AllStates),

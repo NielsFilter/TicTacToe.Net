@@ -1,12 +1,8 @@
 using System;
 using System.Net.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace TicTacToe.UI.Web
 {
@@ -17,7 +13,13 @@ namespace TicTacToe.UI.Web
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            var functionUrl = builder.Configuration["functionUrl"];
+            if (functionUrl == null)
+            {
+                throw new InvalidOperationException(functionUrl);
+            }
+
+            builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(functionUrl) });
 
             await builder.Build().RunAsync();
         }
