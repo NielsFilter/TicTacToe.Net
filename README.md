@@ -9,3 +9,5 @@ So far I've got:
 - Random Move Bot
 - MiniMax Algoritm Bot
 - Reinforcement Learning Bot (more specifically Q-Learning)
+
+To see it in action, go to TicTacToe.filteredcode.com
