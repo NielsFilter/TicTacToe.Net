@@ -4,17 +4,12 @@
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="QLearnModels\average" />
-    <None Remove="QLearnModels\community" />
     <None Remove="QLearnModels\partial" />
     <None Remove="QLearnModels\solid" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="QLearnModels\community">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="QLearnModels\partial">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="QLearnModels\solid">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
