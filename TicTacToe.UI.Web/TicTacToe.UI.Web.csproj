@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Blazored.SessionStorage" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" />
         <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
@@ -22,13 +23,5 @@
       <ProjectReference Include="..\TicTacToe.Bots\TicTacToe.Bots.csproj" />
       <ProjectReference Include="..\TicTacToe.Game\TicTacToe.Game.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="wwwroot\sample-data" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="ConnectionSettings.cs" />
-    </ItemGroup>
-
+    
 </Project>

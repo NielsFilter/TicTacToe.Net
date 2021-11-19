@@ -50,6 +50,10 @@ namespace TicTacToe.UI.Web.Services
 
                         return move;
                     }
+                    catch (JsonSerializationException e)
+                    {
+                        throw;
+                    }
                     catch (Exception e)
                     {
                         if (isOnline)

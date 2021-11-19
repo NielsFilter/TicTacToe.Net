@@ -3,15 +3,22 @@
 @page "/play"
 
 @inject HttpClient _httpClient
+@inject NavigationManager _navigationManager
+@inject Blazored.SessionStorage.ISessionStorageService _sessionStorage
 
 <div hidden="@_isOnline" class="alert alert-danger">
-    <strong>🤖 Connection drop?</strong> Bot is struggling to recruit fellow AI bots on the dark web. It's requesting a steady connection to skynet...
+    <strong>🤖 Connection problem?</strong> Bot is struggling to communicate with skynet to recruit fellow bots
 </div>
 
 <div class="d-flex justify-content-center m-2">
     <div>
         <div class="d-flex justify-content-center m-2">
-            <h1>@_botName</h1>
+            <div>
+                <span class="back-btn" @onclick="GoBack">&#8249;</span>
+            </div>
+            <div class="flex-fill justify-content-center">
+                <h1>@_botName</h1>
+            </div>
         </div>
         <div>
             <div class="mb-4">

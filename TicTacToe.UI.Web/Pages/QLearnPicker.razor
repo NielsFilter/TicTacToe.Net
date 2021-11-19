@@ -1,0 +1,57 @@
+﻿@page "/pick/qlearn"
+
+@inject NavigationManager _navigationManager
+
+
+<div class="d-flex justify-content-center">
+    <div>
+        <div>
+            <div class="d-flex justify-content-center m-2">        
+                <div>
+                    <span class="back-btn" @onclick="GoBack">&#8249;</span>
+                </div>
+                <div class="flex-fill justify-content-center">
+                    <h1>Q-Learning</h1>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center m-2">
+                <h5>Load a Q-Learn policy</h5>
+            </div>
+        </div>
+        <div class="mt-2">
+            <button class="btn btn-info btn-lg btn-block" @onclick="PlayUntrained">Untrained</button>
+        </div>
+        <div class="mt-2">
+            <button class="btn btn-info btn-lg btn-block" @onclick="PlayPartial">Some training</button>
+        </div> 
+        <div class="mt-2">
+            <button class="btn btn-info btn-lg btn-block" @onclick="PlaySolid">Highly trained</button>
+        </div> 
+        <div class="mt-2">
+            <button class="btn btn-info btn-lg btn-block" @onclick="PlayCommunity">Community trained</button>
+        </div>
+    </div>
+</div>
+@code {
+    private void PlayUntrained()
+    {
+        _navigationManager.NavigateTo("play/QLearning-new");
+    }
+    private void PlayCommunity()
+    {
+        _navigationManager.NavigateTo("play/QLearning-community");
+    }
+    private void PlayPartial()
+    {
+        _navigationManager.NavigateTo("play/QLearning-average");
+    }
+    private void PlaySolid()
+    {
+        _navigationManager.NavigateTo("play/QLearning-solid");
+    }
+    private void GoBack()
+    {
+        _navigationManager.NavigateTo("/");
+    }
+
+}

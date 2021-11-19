@@ -5,6 +5,13 @@ namespace TicTacToe.UI.CommandLine
 {
     public class ConsolePlayGame : PlayGame
     {
+        private readonly bool _shouldDraw;
+
+        public ConsolePlayGame(bool shouldDraw = true)
+        {
+            _shouldDraw = shouldDraw;
+        }
+        
         public int Winner;
 
         protected override void GameEnded(ResultState state)
@@ -30,7 +37,12 @@ namespace TicTacToe.UI.CommandLine
 
         protected override void RedrawBoard(Board board)
         {
-            Console.Clear();
+            if (!_shouldDraw)
+            {
+                return;
+            }
+            
+            ClearConsole();
             var defaultColor = Console.ForegroundColor;
             try
             {
@@ -89,12 +101,26 @@ namespace TicTacToe.UI.CommandLine
 
         private void PrintLine(string message)
         {
-            Console.WriteLine(message);
+            if (_shouldDraw)
+            {
+                Console.WriteLine(message);   
+            }
         }
 
         private void Print(string message)
         {
-            Console.Write(message);
+            if (_shouldDraw)
+            {
+                Console.Write(message);   
+            }
+        }
+
+        private void ClearConsole()
+        {
+            if (_shouldDraw)
+            {
+                Console.Clear();
+            }
         }
     }
 }

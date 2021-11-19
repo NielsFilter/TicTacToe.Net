@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +21,7 @@ namespace TicTacToe.UI.Web
             }
 
             builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(functionUrl) });
+            builder.Services.AddBlazoredSessionStorage();
 
             await builder.Build().RunAsync();
         }

@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-@inject NavigationManager NavigationManager
+@inject NavigationManager _navigationManager
 
 
 <div class="d-flex justify-content-center">
@@ -19,15 +19,22 @@
         <div class="mt-2">
             <button class="btn btn-info btn-lg btn-block" @onclick="PlayMiniMax">MiniMax Bot</button>
         </div> 
+        <div class="mt-2">
+            <button class="btn btn-info btn-lg btn-block" @onclick="PlayQLearn">Q-Learning Bot</button>
+        </div> 
     </div>
 </div>
 @code {
     private void PlayRandom()
     {
-        NavigationManager.NavigateTo("play/random");
+        _navigationManager.NavigateTo("play/random");
     }
     private void PlayMiniMax()
     {
-        NavigationManager.NavigateTo("play/minimax");
+        _navigationManager.NavigateTo("play/minimax");
+    }
+    private void PlayQLearn()
+    {
+        _navigationManager.NavigateTo("pick/qlearn");
     }
 }

@@ -45,8 +45,8 @@ namespace TicTacToe.UI.Web.Pages
 
             _totalSpots = BoardSize * BoardSize;
 
-            SetupBot();
             ResetBoard();
+            await SetupBot();
             await StartGameAsync();
         }
 
@@ -76,14 +76,22 @@ namespace TicTacToe.UI.Web.Pages
             }
         }
 
-        private void SetupBot()
+        private void GoBack() => _navigationManager.NavigateTo("/");
+
+        private async Task SetupBot()
         {
             IPlayer botPlayer;
-            _botName = Bot ?? "";
-            if (_botName.Equals(PlayerTypes.MiniMax.ToString(), StringComparison.OrdinalIgnoreCase))
+            var botName = Bot ?? "";
+            if (botName.Equals(PlayerTypes.MiniMax.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 _botName = "MiniMax Bot";
                 botPlayer = new WebMiniMaxBot(_httpClient, SetOnlineState);
+            }
+            else if (botName.StartsWith(PlayerTypes.QLearning.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                var qLearnService = new QLearningService(_httpClient, _sessionStorage);
+                botPlayer =  await qLearnService.LoadQLearnBot(botName);
+                _botName = qLearnService.GetBotName();
             }
             else
             {
@@ -114,10 +122,17 @@ namespace TicTacToe.UI.Web.Pages
                 board => RedrawBoard(board.Positions),
                 GameEnded);
 
-            await _webAppGame.StartGameAsync(
-                BoardSize,
-                _players[0],
-                _players[1]);
+            try
+            {
+                await _webAppGame.StartGameAsync(
+                    BoardSize,
+                    _players[0],
+                    _players[1]);
+            }
+            catch (Exception)
+            {
+                _navigationManager.NavigateTo("/");
+            }
         }
 
         private Task MakeMove(int move)

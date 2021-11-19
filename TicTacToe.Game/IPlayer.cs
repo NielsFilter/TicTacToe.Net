@@ -15,6 +15,7 @@ namespace TicTacToe.Game
     {
         Human,
         RandomBot,
-        MiniMax
+        MiniMax,
+        QLearning
     }
 }

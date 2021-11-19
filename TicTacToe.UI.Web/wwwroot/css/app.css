@@ -183,3 +183,20 @@ html, body {
         opacity: 0.5;
     }
 }
+
+.back-btn {
+    background-color: #242228;
+    font-weight: bold;
+    font-size: x-large;
+    color: white;
+    display: inline-block;
+    padding: 4px 16px;
+    border-radius: 50%;
+    margin-right: 5px;
+    margin-left: -5px;
+}
+
+    .back-btn:hover {
+        cursor: pointer;
+        background-color: #173e44;
+    }

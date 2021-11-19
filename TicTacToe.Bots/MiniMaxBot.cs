@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TicTacToe.Game;
@@ -23,27 +25,37 @@ namespace TicTacToe.Bots
             var clonedState = state.Clone();
             var availableMoves = clonedState.Board.AvailablePositions;
             
-            var topMove = availableMoves.First();
-            double? bestMove = null;
-
+            var scores = new Dictionary<int, int>();
+            var topScore = int.MinValue;
             // go through all available moves and get a minmax score for each. Then chose the best move.
             foreach (var move in availableMoves)
             {
                 var score = GetMinMaxScoreForMovesRecursive(myNumber, move, clonedState.Clone(), 1);
-                if (score <= bestMove)
+                scores[move] = score;
+                
+                if (score > topScore)
                 {
-                    continue;
+                    topScore = score;
                 }
-
-                // new best move. Capture the move and the score
-                bestMove = score;
-                topMove = move;
             }
 
-            return topMove;
+            // This isn't needed but to keep things interesting, if there are multiple spots with top scores, switch things
+            // up by randomly choosing one rather than just the first each time.  
+            var topMoves = scores
+                .Where(x => x.Value == topScore)
+                .Select(x=>x.Key)
+                .ToArray();
+
+            if (topMoves.Length == 1)
+            {
+                return topMoves[0];
+            }
+            
+            var rndIndex = new Random().Next(0, topMoves.Length - 1);
+            return topMoves[rndIndex];
         }
 
-        private double GetMinMaxScoreForMovesRecursive(int myNumber, int move, GameState state, int depth)
+        private int GetMinMaxScoreForMovesRecursive(int myNumber, int move, GameState state, int depth)
         {
             // make the move on the cloned board
             state.ApplyMove(move);
@@ -65,7 +77,7 @@ namespace TicTacToe.Bots
             
             depth++;
             var nextAvailableMoves = state.Board.AvailablePositions;
-            var scores = new double[nextAvailableMoves.Count];
+            var scores = new int[nextAvailableMoves.Count];
             
             for (var i = 0; i < nextAvailableMoves.Count; i++)
             {
@@ -83,11 +95,11 @@ namespace TicTacToe.Bots
         //  - Draw is meh... 0 points
         //  - A Loss is bad: -10. But a loss much later in the game is better than an immediate loss, so we add depth
         //  - A Win is great: +10. An immediate win trumps a later win. So we subtract the depth from the win score
-        private static double DrawScore() => 0;
-        private static double LoseScore(int depth) => -10 + depth;
-        private static double WinScore(int depth) => 10 - depth;
+        private static int DrawScore() => 0;
+        private static int LoseScore(int depth) => -100 + depth;
+        private static int WinScore(int depth) => 100 - depth;
         
-        private static double WinOrLoseScore(int myNumber, int winningPlayer, int depth)
+        private static int WinOrLoseScore(int myNumber, int winningPlayer, int depth)
         {
             return myNumber == winningPlayer
                 ? WinScore(depth)
