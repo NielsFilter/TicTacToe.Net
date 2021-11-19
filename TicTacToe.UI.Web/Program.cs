@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using TicTacToe.UI.Web.Services;
 
 namespace TicTacToe.UI.Web
 {
@@ -22,8 +23,10 @@ namespace TicTacToe.UI.Web
 
             builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(functionUrl) });
             builder.Services.AddBlazoredSessionStorage();
+            builder.Services.AddTransient<IQLearningService, QLearningService>();
 
             await builder.Build().RunAsync();
+            Console.WriteLine("hello");
         }
     }
 }

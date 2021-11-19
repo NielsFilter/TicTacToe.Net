@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Blazored.SessionStorage;
 using Newtonsoft.Json;
@@ -10,13 +11,25 @@ using TicTacToe.Game;
 
 namespace TicTacToe.UI.Web.Services
 {
-    public class QLearningService
+    public interface IQLearningService
+    {
+        Task CacheAllQLearnModelAsync();
+    }
+
+    public class QLearningService : IQLearningService
     {
         private const int SESSION_STORAGE_EXPIRY_HOURS = 24;
         private readonly HttpClient _httpClient;
         private readonly ISessionStorageService _sessionStorage;
         private string _botName;
 
+        private Dictionary<string, string> qBots = new()
+        {
+            ["new"] = "Q Noobot",
+            ["partial"] = "Q Average",
+            ["community"] = "Q Train me",
+            ["solid"] = "Q Machine"
+        };
 
         public QLearningService(
             HttpClient httpClient,
@@ -27,29 +40,54 @@ namespace TicTacToe.UI.Web.Services
             _botName = "Q-Learn bot";
         }
 
+        public async Task CacheAllQLearnModelAsync()
+        {
+            try
+            {
+                var levelsToCache = qBots.Keys.Where(x => !x.Equals("new"));
+                await Parallel.ForEachAsync(
+                    levelsToCache,
+                    async (level, ct) =>
+                    {
+                        await CacheModelAsync(level);
+                    });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        private async Task CacheModelAsync(string level)
+        {
+            var policy = await _httpClient.GetFromJsonAsync<Dictionary<string, double>>(@$"api\qlearn\{level}"); 
+            if (policy == null)
+            {
+                return;
+            }
+
+            var sessionStorageItem = new SessionStorageItem<Dictionary<string, double>>()
+            {
+                TimeStamp = DateTime.UtcNow,
+                Item = policy
+            };
+            await _sessionStorage.SetItemAsync($"qlearn-{level}", sessionStorageItem);
+        }
+
         public string GetBotName() => _botName;
 
-
-        private Dictionary<string, string> qbots = new()
-        {
-            ["new"] = "Q Noobot",
-            ["average"] = "Q Average",
-            ["community"] = "Q Train me",
-            ["solid"] = "Q Machine"
-        };
-        
         public async Task<IPlayer> LoadQLearnBot(string botName)
         {
             var level = botName.Split('-').Last().ToLower();
-            if (!qbots.Keys.Contains(level, StringComparer.OrdinalIgnoreCase))
+            if (!qBots.Keys.Contains(level, StringComparer.OrdinalIgnoreCase))
             {
                 level = "solid";
             }
-            
-            _botName = qbots[level];
-            
+
+            _botName = qBots[level];
+
             var policy = await LoadQLearnPolicy(level);
-            
+
             var bot = level switch
             {
                 "new" => new QLearningBot(null, true, 10, 5, 1, turnDelay: 300, predefinedPolicy: policy),
@@ -80,7 +118,7 @@ namespace TicTacToe.UI.Web.Services
             {
                 Console.WriteLine(e);
             }
-            
+
             // Unable to load from local store. Go get policy content from the server
             var policyContent = level switch
             {
@@ -113,7 +151,7 @@ namespace TicTacToe.UI.Web.Services
                 // let's not cache the community policy. If others are also training the bot. Best to always load it from the server
                 return null;
             }
-            
+
             try
             {
                 var policyContentStorage = await _sessionStorage.GetItemAsync<SessionStorageItem<Dictionary<string, double>>>($"qlearn-{level}");
@@ -125,7 +163,7 @@ namespace TicTacToe.UI.Web.Services
                         await _sessionStorage.RemoveItemAsync($"qlearn-{level}");
                         return null;
                     }
-                    
+
                     return policyContentStorage.Item;
                 }
             }
@@ -136,13 +174,5 @@ namespace TicTacToe.UI.Web.Services
 
             return null;
         }
-        
-        public static string FirstCharToUpper(string input) =>
-            input switch
-            {
-                null => throw new ArgumentNullException(nameof(input)),
-                "" => throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input)),
-                _ => string.Concat(input[0].ToString().ToUpper(), input.AsSpan(1))
-            };
     }
 }
