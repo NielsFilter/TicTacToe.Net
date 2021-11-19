@@ -52,10 +52,10 @@ namespace TicTacToe.UI.Web.Services
             
             var bot = level switch
             {
-                "new" => new QLearningBot(null, true, 10, 5, 1, predefinedPolicy: policy),
-                "partial" => new QLearningBot(null, true, 5, predefinedPolicy: policy),
+                "new" => new QLearningBot(null, true, 10, 5, 1, turnDelay: 300, predefinedPolicy: policy),
+                "partial" => new QLearningBot(null, true, 5, turnDelay: 300, predefinedPolicy: policy),
                 "community" => new WebQLearnCommunityBot(_httpClient, policy),
-                _ => new QLearningBot(null, true, 0, 0, 0, predefinedPolicy: policy)
+                _ => new QLearningBot(null, true, 0, 0, 0, turnDelay: 300, predefinedPolicy: policy)
             };
 
             return bot;

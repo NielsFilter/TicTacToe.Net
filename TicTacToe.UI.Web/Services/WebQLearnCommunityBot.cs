@@ -14,7 +14,7 @@ namespace TicTacToe.UI.Web.Services
 
         public WebQLearnCommunityBot(
             HttpClient httpClient,
-            Dictionary<string, double>? policy) : base(null, true, 10, predefinedPolicy: policy)
+            Dictionary<string, double>? policy) : base(null, true, 10, turnDelay: 300, predefinedPolicy: policy)
         {
             _httpClient = httpClient;
         }

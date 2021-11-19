@@ -20,6 +20,7 @@ namespace TicTacToe.Bots
         private readonly bool _shouldTrain;
         private readonly string _botName;
         private readonly int _decreaseExplorationCounter;
+        private readonly int _turnDelay;
         private int _gamesPlayed;
         private int _explorationRate; // epsilon greedy
 
@@ -31,6 +32,7 @@ namespace TicTacToe.Bots
             int decreaseExplorationAfter = 1000,
             int decreaseExplorationCounter = 1,
             string customName = "",
+            int turnDelay = 0,
             Dictionary<string, double>? predefinedPolicy = null)
         {
             _shouldTrain = shouldTrain;
@@ -39,6 +41,7 @@ namespace TicTacToe.Bots
             _minExplorationRate = minExplorationRate;
             _decreaseExplorationAfter = decreaseExplorationAfter;
             _decreaseExplorationCounter = decreaseExplorationCounter;
+            _turnDelay = turnDelay;
             _botName = string.IsNullOrWhiteSpace(customName)
                 ? Type.ToString()
                 : customName;
@@ -48,8 +51,12 @@ namespace TicTacToe.Bots
 
         public PlayerTypes Type => PlayerTypes.QLearning;
 
-        public Task<int> MakeMove(GameState state)
+        public async Task<int> MakeMove(GameState state)
         {
+            if (_turnDelay > 0)
+            {
+                await Task.Delay(_turnDelay);
+            }
             var myNumber = state.GetCurrentPlayersNumber();
             var rnd = new Random();
             if (rnd.Next(1, 100) <= _explorationRate)
@@ -57,7 +64,7 @@ namespace TicTacToe.Bots
                 // explore 
                 var allAvailableMoves = state.Board.AvailablePositions;
                 var randomIndex = rnd.Next(0, allAvailableMoves.Count - 1);
-                return Task.FromResult(allAvailableMoves.ElementAt(randomIndex));   
+                return allAvailableMoves.ElementAt(randomIndex);   
             }
 
             // exploit
@@ -81,7 +88,7 @@ namespace TicTacToe.Bots
                 }
             }
 
-            return Task.FromResult(topSpot);
+            return topSpot;
         }
 
         public void GameEnded(GameState state, ResultState result, int myNumber)
