@@ -1,4 +1,7 @@
-﻿@using TicTacToe.UI.Web.Shared
+﻿@using TicTacToe.UI.Web.Services
+@using TicTacToe.UI.Web.Shared
+@inject IQLearningService _qLearningService;
+
 <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
@@ -9,3 +12,12 @@
         </LayoutView>
     </NotFound>
 </Router>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await _qLearningService.CacheAllQLearnModelAsync();
+
+        base.OnInitialized();
+    }
+}

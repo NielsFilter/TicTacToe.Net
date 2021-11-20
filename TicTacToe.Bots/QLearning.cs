@@ -57,6 +57,7 @@ namespace TicTacToe.Bots
             {
                 await Task.Delay(_turnDelay);
             }
+            
             var myNumber = state.GetCurrentPlayersNumber();
             var rnd = new Random();
             if (rnd.Next(1, 100) <= _explorationRate)
