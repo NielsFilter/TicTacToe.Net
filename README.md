@@ -10,4 +10,4 @@ So far I've got:
 - MiniMax Algoritm Bot
 - Reinforcement Learning Bot (more specifically Q-Learning)
 
-To see it in action, go to TicTacToe.filteredcode.com
+To see it in action, go to https://tictactoe.filteredcode.co.za
