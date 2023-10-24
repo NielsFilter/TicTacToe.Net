@@ -3,7 +3,7 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: white;
-    background-color: #242228;
+    background-color: #1b1f22ff;
     height: 100%;
 }
 
@@ -21,6 +21,42 @@ html, body {
 
 .validation-message {
     color: red;
+}
+
+a, a:visited, a:active {
+    color: white !important;
+}
+
+.alert {
+    padding: 1.5rem 2.5rem; 
+}
+
+.alert-danger{
+    background-color: #ff535399;/*#721c24;*/
+    color:#fff;
+}
+.alert-success{
+    background-color: #721c24;
+    color:#fff;
+}
+
+.top-left {
+    position: absolute;
+    top: -22px;
+    left: -22px;
+    transition: all .2s ease-in-out;
+    border-radius: 50%;
+    padding: 32px;
+    background-color: #3eaf7c55;
+}
+.top-left i {
+    font-size: 3em !important;
+}
+
+.top-left:hover {
+    transform: scale(1.6) translate(20px,20px);
+    background-color: #3eaf7cff;
+    cursor: pointer;
 }
 
 #blazor-error-ui {
@@ -102,79 +138,121 @@ html, body {
     background-color: #ffb04e99;
 }
 
-.lds-grid {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
+@keyframes slide {
+    0% {
+        transform: translateX(-25%);
+    }
+
+    100% {
+        transform: translateX(25%);
+    }
+}
+
+.loading-line {
+    animation: slide 3s ease-in-out infinite alternate;
+    bottom: 0;
+    left: -50%;
+    opacity: .5;
+    position: fixed;
+    right: -50%;
+    top: 0;
+    z-index: -1
+}
+.loading-line.line1 {
+    background-image: linear-gradient(105deg, rgb(62, 175, 124) 50%, rgb(27, 31, 34) 50%);
+}
+.loading-line.line2 {
+    background-image: linear-gradient(105deg, rgb(62, 175, 124) 50%, rgb(27, 31, 34) 50%);
+    animation-direction:alternate-reverse;
+    animation-duration:2s;
+}
+.loading-line.line3 {
+    background-image: linear-gradient(105deg, rgb(62, 175, 124) 50%, rgb(27, 31, 34) 50%);
+    animation-duration:5s;
+}
+
+.loading-line-cont {
+    left: 50%;
+    padding: 10vmin;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%)
 }
 
 
 /*loading spinner*/
-.lds-grid div {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #0bff00;
-    animation: lds-grid 1.2s linear infinite;
+.loading-grid {
+    display: inline-block;
+    position: relative;
+    width: 160px;
+    height: 160px;
 }
 
-    .lds-grid div:nth-child(1) {
-        top: 8px;
-        left: 8px;
+.loading-grid div {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #0bff00;
+    animation: loading-grid 1.2s linear infinite;
+}
+
+    .loading-grid div:nth-child(1) {
+        top: 16px;
+        left: 16px;
         animation-delay: 0s;
     }
 
-    .lds-grid div:nth-child(2) {
-        top: 8px;
-        left: 32px;
+    .loading-grid div:nth-child(2) {
+        top: 16px;
+        left: 64px;
         animation-delay: -0.4s;
     }
 
-    .lds-grid div:nth-child(3) {
-        top: 8px;
-        left: 56px;
+    .loading-grid div:nth-child(3) {
+        top: 16px;
+        left: 112px;
         animation-delay: -0.8s;
     }
 
-    .lds-grid div:nth-child(4) {
-        top: 32px;
-        left: 8px;
+    .loading-grid div:nth-child(4) {
+        top: 64px;
+        left: 16px;
         animation-delay: -0.4s;
     }
 
-    .lds-grid div:nth-child(5) {
-        top: 32px;
-        left: 32px;
+    .loading-grid div:nth-child(5) {
+        top: 64px;
+        left: 64px;
         animation-delay: -0.8s;
     }
 
-    .lds-grid div:nth-child(6) {
-        top: 32px;
-        left: 56px;
+    .loading-grid div:nth-child(6) {
+        top: 64px;
+        left: 112px;
         animation-delay: -1.2s;
     }
 
-    .lds-grid div:nth-child(7) {
-        top: 56px;
-        left: 8px;
+    .loading-grid div:nth-child(7) {
+        top: 112px;
+        left: 16px;
         animation-delay: -0.8s;
     }
 
-    .lds-grid div:nth-child(8) {
-        top: 56px;
-        left: 32px;
+    .loading-grid div:nth-child(8) {
+        top: 112px;
+        left: 64px;
         animation-delay: -1.2s;
     }
 
-    .lds-grid div:nth-child(9) {
-        top: 56px;
-        left: 56px;
+    .loading-grid div:nth-child(9) {
+        top: 112px;
+        left: 112px;
         animation-delay: -1.6s;
     }
 
-@keyframes lds-grid {
+@keyframes loading-grid {
     0%, 100% {
         opacity: 1;
     }

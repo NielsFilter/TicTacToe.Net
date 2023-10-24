@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Tic Tac Toe</title>
     <base href="/" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.1/css/all.css" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
 </head>
@@ -13,8 +14,14 @@
 <body>
 
     <div id="app" class="h-100">
-        <div class="h-100 d-flex justify-content-center align-items-center">
-            <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div style="height:100%;width:100%;margin:0;position:fixed;">
+            <div class="loading-line line1"></div>
+            <div class="loading-line line2" style=""></div>
+            <div class="loading-line line3" style=""></div>
+            <div class="loading-line-cont ">
+                <div class="loading-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+
         </div>
     </div>
     
@@ -23,6 +30,7 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
 
