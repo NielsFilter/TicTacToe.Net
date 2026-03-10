@@ -32,6 +32,12 @@ jobs:
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet publish TicTacToe.UI.WebServer/TicTacToe.UI.WebServer.csproj --configuration Release --output ./output
           popd
+
+      - name: Verify package contents
+        run: |
+          echo "Checking path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output"
+          ls -la ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output
+          
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
