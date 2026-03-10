@@ -38,14 +38,60 @@ jobs:
           echo "Checking path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output"
           ls -la ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output
 
-      - name: 'Run Azure Functions Action'
-        uses: Azure/functions-action@v1
-        id: fa
+      - name: 'Zip the deployment package'
+        run: |
+          cd ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output
+          zip -r ../deployment.zip .
+
+      - name: 'Login to Azure'
+        uses: azure/login@v1
         with:
-          app-name: 'func-tictactoe'
-          slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8B8B2508AB07490B9EE60BE34AB4DB74 }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 'Deploy Function App via CLI'
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az functionapp deployment source config-zip \
+              --resource-group rg-tictactoe \
+              --name func-tictactoe \
+              --src ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/deployment.zip
+ 
+
+
+
+
+  # build-and-deploy-func-api:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: 'Checkout GitHub Action'
+  #       uses: actions/checkout@v2
+
+  #     - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+  #       uses: actions/setup-dotnet@v1
+  #       with:
+  #         dotnet-version: ${{ env.DOTNET_VERSION }}
+
+  #     - name: 'Resolve Project Dependencies Using Dotnet'
+  #       shell: bash
+  #       run: |
+  #         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+  #         dotnet build --configuration Release --output ./output
+  #         popd
+
+  #     - name: Verify package contents
+  #       run: |
+  #         echo "Checking path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output"
+  #         ls -la ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output
+
+  #     - name: 'Run Azure Functions Action'
+  #       uses: Azure/functions-action@v1
+  #       id: fa
+  #       with:
+  #         app-name: 'func-tictactoe'
+  #         slot-name: 'Production'
+  #         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+  #         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8B8B2508AB07490B9EE60BE34AB4DB74 }}
 
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
