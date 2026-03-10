@@ -213,15 +213,15 @@ a, a:visited, a:active {
     z-index: -1
 }
 .loading-line.line1 {
-    background-image: linear-gradient(105deg, rgb(62, 175, 124) 50%, rgb(27, 31, 34) 50%);
+    background-image: linear-gradient(105deg, rgba(96, 165, 250, 0.8) 50%, rgba(15, 23, 42, 1) 50%);
 }
 .loading-line.line2 {
-    background-image: linear-gradient(105deg, rgb(62, 175, 124) 50%, rgb(27, 31, 34) 50%);
+    background-image: linear-gradient(105deg, rgba(167, 139, 250, 0.8) 50%, rgba(15, 23, 42, 1) 50%);
     animation-direction:alternate-reverse;
     animation-duration:2s;
 }
 .loading-line.line3 {
-    background-image: linear-gradient(105deg, rgb(62, 175, 124) 50%, rgb(27, 31, 34) 50%);
+    background-image: linear-gradient(105deg, rgba(96, 165, 250, 0.8) 50%, rgba(15, 23, 42, 1) 50%);
     animation-duration:5s;
 }
 
@@ -248,7 +248,7 @@ a, a:visited, a:active {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #0bff00;
+    background: #a78bfa;
     animation: loading-grid 1.2s linear infinite;
 }
 
