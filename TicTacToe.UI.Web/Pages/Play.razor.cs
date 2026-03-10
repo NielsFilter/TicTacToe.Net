@@ -93,6 +93,11 @@ namespace TicTacToe.UI.Web.Pages
                 botPlayer =  await qLearnService.LoadQLearnBot(botName);
                 _botName = qLearnService.GetBotName();
             }
+            else if (botName.Equals(PlayerTypes.LlmBot.ToString(), StringComparison.OrdinalIgnoreCase) || botName.Equals("llm", StringComparison.OrdinalIgnoreCase))
+            {
+                _botName = "LLM Bot";
+                botPlayer = new WebLlmBot(_httpClient, SetOnlineState);
+            }
             else
             {
                 _botName = "Random Bot";

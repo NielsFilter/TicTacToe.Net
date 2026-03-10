@@ -4,32 +4,36 @@
 
 <div class="d-none d-md-block">
     <div class="top-left">
-        <a href="https://filteredcode.co.za"><i class="fa-solid fa-house"></i></a>
+        <a href="https://filteredcode.co.za"><img src="fc-logo.png" alt="Filtered Code Logo" /></a>
     </div>
 </div>
 
-<div class="d-flex justify-content-center">
-    <div>
-        <div>
-            
-            <div class="d-flex justify-content-center m-2">
-                    <span class="d-inline-block d-md-none pt-3 pl-0 pr-3">
-                    <a href="https://filteredcode.co.za"><i class="fa-solid fa-house fa-xl"></i></a>
-                    </span>
-                    <span class="d-inline-block"><h1>Tic Tac Toe</h1></span>
-            </div>
-            <div class="d-flex justify-content-center m-2">
-                <h4>Choose your opponent</h4>
-            </div>
+<div class="container mt-5 mb-2">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Tic Tac Toe</h1>
+        <p class="lead text-muted mt-2">Choose your opponent and begin the battle</p>
+    </div>
+
+    <div class="bot-selection-grid pb-3">
+        <div class="bot-card" @onclick="PlayRandom">
+            <i class="fa-solid fa-dice fa-3x mb-3 text-info"></i>
+            <h5>Random Bot</h5>
+            <span class="bot-desc">Unpredictable starter bot</span>
         </div>
-        <div class="mt-2">
-            <button class="btn btn-info btn-lg btn-block" @onclick="PlayRandom">Random Bot</button>
+        <div class="bot-card" @onclick="PlayMiniMax">
+            <i class="fa-solid fa-brain fa-3x mb-3 text-warning"></i>
+            <h5>MiniMax Bot</h5>
+            <span class="bot-desc">Calculated and unbeatable</span>
         </div>
-        <div class="mt-2">
-            <button class="btn btn-info btn-lg btn-block" @onclick="PlayMiniMax">MiniMax Bot</button>
+        <div class="bot-card" @onclick="PlayQLearn">
+            <i class="fa-solid fa-robot fa-3x mb-3 text-success"></i>
+            <h5>RL Bot</h5>
+            <span class="bot-desc">Reinforcement Learning bot, trained using Q-Learning</span>
         </div>
-        <div class="mt-2">
-            <button class="btn btn-info btn-lg btn-block" @onclick="PlayQLearn">Q-Learning Bot</button>
+        <div class="bot-card" @onclick="PlayLlm">
+            <i class="fa-solid fa-microchip fa-3x mb-3 text-primary"></i>
+            <h5>LLM Bot</h5>
+            <span class="bot-desc">Powered by OpenAI</span>
         </div>
     </div>
 </div>
@@ -45,5 +49,9 @@
     private void PlayQLearn()
     {
         _navigationManager.NavigateTo("pick/qlearn");
+    }
+    private void PlayLlm()
+    {
+        _navigationManager.NavigateTo("play/llm");
     }
 }

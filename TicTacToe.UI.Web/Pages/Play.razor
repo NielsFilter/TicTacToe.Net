@@ -6,23 +6,29 @@
 @inject NavigationManager _navigationManager
 @inject Blazored.SessionStorage.ISessionStorageService _sessionStorage
 
-<div hidden="@_isOnline" class="alert alert-danger">
-    <strong>🤖 Connection problem?</strong> Bot is struggling to communicate with skynet...
+<div hidden="@_isOnline" class="connection-alert mb-4">
+    <div class="alert-icon">
+        <i class="fa-solid fa-satellite-dish"></i>
+    </div>
+    <div class="alert-content">
+        <strong class="d-block mb-1">Connection Interrupted</strong>
+        <span>Bot is struggling to communicate with Skynet...</span>
+    </div>
 </div>
 
 <div class="d-flex justify-content-center m-2">
     <div>
-        <div class="d-flex justify-content-center m-2">
-            <div>
-                <span class="back-btn" @onclick="GoBack">&#8249;</span>
+        <div class="d-flex align-items-center justify-content-center mb-4">
+            <div class="me-3">
+                <span class="back-btn" @onclick="GoBack"><i class="fa-solid fa-arrow-left"></i></span>
             </div>
-            <div class="flex-fill justify-content-center">
-                <h1>@_botName</h1>
+            <div class="flex-fill text-center">
+                <h2 class="mb-0 fw-bold">@_botName</h2>
             </div>
-        </div>
-        <div>
-            <div class="mb-4">
-                <button class="btn btn-info btn-lg btn-block" @onclick="RestartGameAsync">Restart Game..</button>
+            <div class="ms-3">
+                <button class="restart-btn" @onclick="RestartGameAsync">
+                    <i class="fa-solid fa-rotate-right me-1"></i> <span class="restart-btn-text">Restart</span>
+                </button>
             </div>
         </div>
 

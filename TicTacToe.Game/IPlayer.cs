@@ -16,6 +16,7 @@ namespace TicTacToe.Game
         Human,
         RandomBot,
         MiniMax,
-        QLearning
+        QLearning,
+        LlmBot
     }
 }

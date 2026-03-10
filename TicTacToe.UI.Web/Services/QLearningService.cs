@@ -25,10 +25,10 @@ namespace TicTacToe.UI.Web.Services
 
         private Dictionary<string, string> qBots = new()
         {
-            ["new"] = "Q Noobot",
-            ["partial"] = "Q Average",
-            ["community"] = "Q Train me",
-            ["solid"] = "Q Machine"
+            ["new"] = "RL noob",
+            ["partial"] = "RL meh",
+            ["community"] = "RL village",
+            ["solid"] = "RL machine"
         };
 
         public QLearningService(

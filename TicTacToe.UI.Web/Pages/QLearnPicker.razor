@@ -3,26 +3,32 @@
 @inject NavigationManager _navigationManager
 
 
-<div class="d-flex justify-content-center">
-    <div>
-        <div>
-            <div class="d-flex justify-content-center m-2">        
-                <div>
-                    <span class="back-btn" @onclick="GoBack">&#8249;</span>
-                </div>
-                <div class="flex-fill justify-content-center">
-                    <h1>Q-Learning</h1>
-                </div>
-            </div>
+<div class="container mt-5">
+    <div class="d-flex align-items-center justify-content-center mb-5">
+        <div class="me-3">
+            <span class="back-btn" @onclick="GoBack"><i class="fa-solid fa-arrow-left"></i></span>
         </div>
-        <div class="mt-2">
-            <button class="btn btn-info btn-lg btn-block" @onclick="PlayUntrained">Untrained</button>
+        <div class="text-center">
+            <h1 class="display-4 fw-bold mb-0">RL Bot</h1>
+            <p class="lead text-muted mt-2">Select the Reinforcement Learning training</p>
         </div>
-        <div class="mt-2">
-            <button class="btn btn-info btn-lg btn-block" @onclick="PlayPartial">Some training</button>
+    </div>
+
+    <div class="bot-selection-grid text-center">
+        <div class="bot-card" @onclick="PlayUntrained">
+            <i class="fa-solid fa-battery-empty fa-3x mb-3 text-danger"></i>
+            <h5>Untrained</h5>
+            <span class="bot-desc">Clueless and random</span>
+        </div>
+        <div class="bot-card" @onclick="PlayPartial">
+            <i class="fa-solid fa-battery-half fa-3x mb-3 text-warning"></i>
+            <h5>Some Training</h5>
+            <span class="bot-desc">Knows the basics</span>
         </div> 
-        <div class="mt-2">
-            <button class="btn btn-info btn-lg btn-block" @onclick="PlaySolid">Highly trained</button>
+        <div class="bot-card" @onclick="PlaySolid">
+            <i class="fa-solid fa-battery-full fa-3x mb-3 text-success"></i>
+            <h5>Highly Trained</h5>
+            <span class="bot-desc">Almost unbeatable</span>
         </div> 
     </div>
 </div>
