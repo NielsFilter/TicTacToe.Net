@@ -41,13 +41,14 @@ namespace TicTacToe.Bots
             var prompt = GeneratePrompt(state);
             
             string systemRole = "You are an expert TicTacToe player. You must output ONLY a single integer corresponding to the index (0-8) of your chosen move. No explanation, no markdown, no other text. ";
-            string promptToExplainIndexes = "The board is represented as a 3x3 grid, with the following indexes: Top left is 0, top right is 2, bottom left is 6, bottom right is 8.";
+            string promptToExplainIndexes = "The board is represented as a list of 9 indexes, starting top left, going right and then continuing to the second row and last the third. ";
+            string exampleIndex = "For example the board state O000X0000 represents player 'O' having places top left, player 'X' in the middle and the rest of the spaces are open";
             var requestBody = new
             {
                 model = "gpt-3.5-turbo",
                 messages = new[]
                 {
-                    new { role = "system", content = systemRole + promptToExplainIndexes },
+                    new { role = "system", content = systemRole + promptToExplainIndexes + exampleIndex },
                     new { role = "user", content = prompt }
                 },
                 temperature = 0.1
@@ -111,8 +112,6 @@ namespace TicTacToe.Bots
                 int val = state.Board.Positions[i];
                 string symbol = val == 0 ? i.ToString() : (val == 1 ? "X" : "O");
                 sb.Append(symbol);
-                if (i % 3 == 2) sb.AppendLine();
-                else sb.Append(" | ");
             }
             
             sb.AppendLine();
