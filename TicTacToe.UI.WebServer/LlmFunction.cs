@@ -15,7 +15,7 @@ namespace TicTacToe.UI.WebServer
     {
         [FunctionName("LlmHost")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "llm")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "llm/{model}")] HttpRequest req, string model,
             ILogger log)
         {
             log.LogInformation("Request received to make a Llm bot move");
@@ -40,6 +40,9 @@ namespace TicTacToe.UI.WebServer
                     return new BadRequestObjectResult("Unable to deserialize the Game state payload");
                 }
                 
+                if (gameState.Player1 is LlmBot bot1) bot1.Model = model;
+                if (gameState.Player2 is LlmBot bot2) bot2.Model = model;
+
                 var player = gameState.Player1.Type == gameState.PlayersTurn.Type
                     ? gameState.Player1
                     : gameState.Player2;
