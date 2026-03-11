@@ -22,6 +22,8 @@ namespace TicTacToe.Bots
         [JsonIgnore]
         public string? ApiKey { get; set; }
 
+        public string Model { get; set; } = "gpt-3.5-turbo";
+
         public LlmBot()
         {
             EndpointUrl = Environment.GetEnvironmentVariable("LLM_ENDPOINT_URL") ?? "https://api.openai.com/v1/chat/completions";
@@ -45,7 +47,7 @@ namespace TicTacToe.Bots
             string exampleIndex = "For example the board state O000X0000 represents player 'O' having places top left, player 'X' in the middle and the rest of the spaces are open";
             var requestBody = new
             {
-                model = "gpt-3.5-turbo",
+                model = Model,
                 messages = new[]
                 {
                     new { role = "system", content = systemRole + promptToExplainIndexes + exampleIndex },

@@ -1,0 +1,53 @@
+@page "/pick/llm"
+
+@inject NavigationManager _navigationManager
+
+
+<div class="container mt-5">
+    <div class="d-flex align-items-center justify-content-center mb-5">
+        <div class="me-3">
+            <span class="back-btn" @onclick="GoBack"><i class="fa-solid fa-arrow-left"></i></span>
+        </div>
+        <div class="text-center">
+            <h1 class="display-4 fw-bold mb-0">LLM Bot</h1>
+            <p class="lead text-muted mt-2">Select the OpenAI model</p>
+        </div>
+    </div>
+
+    <div class="bot-selection-grid text-center">
+        <div class="bot-card" @onclick="PlayGpt35">
+            <i class="fa-solid fa-microchip fa-3x mb-3 text-info"></i>
+            <h5>GPT 3.5 Turbo</h5>
+            <span class="bot-desc">Fast, cheap, and capable</span>
+        </div>
+        <div class="bot-card" @onclick="PlayO4Mini">
+            <i class="fa-solid fa-bolt fa-3x mb-3 text-warning"></i>
+            <h5>o4-mini</h5>
+            <span class="bot-desc">Fast and intelligent</span>
+        </div> 
+        <div class="bot-card" @onclick="PlayGpt5">
+            <i class="fa-solid fa-brain fa-3x mb-3 text-primary"></i>
+            <h5>GPT 5</h5>
+            <span class="bot-desc">The smartest model</span>
+        </div> 
+    </div>
+</div>
+@code {
+    private void PlayGpt35()
+    {
+        _navigationManager.NavigateTo("play/llm-gpt35");
+    }
+    private void PlayO4Mini()
+    {
+        _navigationManager.NavigateTo("play/llm-o4mini");
+    }
+    private void PlayGpt5()
+    {
+        _navigationManager.NavigateTo("play/llm-gpt5");
+    }
+    private void GoBack()
+    {
+        _navigationManager.NavigateTo("/");
+    }
+
+}

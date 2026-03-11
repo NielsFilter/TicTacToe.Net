@@ -12,10 +12,13 @@ namespace TicTacToe.UI.Web.Services
         private readonly HttpClient _httpClient;
         private readonly Action<bool> _onlineStateChanged;
 
-        public WebLlmBot(HttpClient httpClient, Action<bool> onlineStateChanged)
+        public string Model { get; set; } = "gpt-3.5-turbo";
+
+        public WebLlmBot(HttpClient httpClient, Action<bool> onlineStateChanged, string model = "gpt-3.5-turbo")
         {
             _httpClient = httpClient;
             _onlineStateChanged = onlineStateChanged;
+            Model = model;
         }
 
         public PlayerTypes Type => PlayerTypes.LlmBot;

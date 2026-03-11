@@ -80,32 +80,55 @@ namespace TicTacToe.UI.Web.Pages
 
         private async Task SetupBot()
         {
-            IPlayer botPlayer;
             var botName = Bot ?? "";
-            if (botName.Equals(PlayerTypes.MiniMax.ToString(), StringComparison.OrdinalIgnoreCase))
+            var botPrefix = botName.Split('-')[0].ToLower();
+
+            IPlayer botPlayer = botPrefix switch
             {
-                _botName = "MiniMax Bot";
-                botPlayer = new WebMiniMaxBot(_httpClient, SetOnlineState);
-            }
-            else if (botName.StartsWith(PlayerTypes.QLearning.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                var qLearnService = new QLearningService(_httpClient, _sessionStorage);
-                botPlayer =  await qLearnService.LoadQLearnBot(botName);
-                _botName = qLearnService.GetBotName();
-            }
-            else if (botName.Equals(PlayerTypes.LlmBot.ToString(), StringComparison.OrdinalIgnoreCase) || botName.Equals("llm", StringComparison.OrdinalIgnoreCase))
-            {
-                _botName = "LLM Bot";
-                botPlayer = new WebLlmBot(_httpClient, SetOnlineState);
-            }
-            else
-            {
-                _botName = "Random Bot";
-                botPlayer = new RandomMoveBot(300);
-            }
+                "minimax" => SetupMiniMaxBot(),
+                "qlearning" => await SetupQLearningBot(botName),
+                "llm" or "llmbot" => SetupLlmBot(botName),
+                _ => SetupRandomBot()
+            };
 
             _players.Add(botPlayer);
             _players.Add(new WebHumanPlayer());
+        }
+
+        private IPlayer SetupMiniMaxBot()
+        {
+            _botName = "MiniMax Bot";
+            return new WebMiniMaxBot(_httpClient, SetOnlineState);
+        }
+
+        private async Task<IPlayer> SetupQLearningBot(string botName)
+        {
+            var qLearnService = new QLearningService(_httpClient, _sessionStorage);
+            var botPlayer = await qLearnService.LoadQLearnBot(botName);
+            _botName = qLearnService.GetBotName();
+            return botPlayer;
+        }
+
+        private IPlayer SetupLlmBot(string botName)
+        {
+            var model = "gpt-3.5-turbo";
+            if (botName.EndsWith("-o4mini", StringComparison.OrdinalIgnoreCase))
+            {
+                model = "o4-mini";
+            }
+            else if (botName.EndsWith("-gpt5", StringComparison.OrdinalIgnoreCase))
+            {
+                model = "gpt-5";
+            }
+
+            _botName = $"{model}";
+            return new WebLlmBot(_httpClient, SetOnlineState, model);
+        }
+
+        private IPlayer SetupRandomBot()
+        {
+            _botName = "Random Bot";
+            return new RandomMoveBot(300);
         }
 
         private void SetOnlineState(bool isOnline)
