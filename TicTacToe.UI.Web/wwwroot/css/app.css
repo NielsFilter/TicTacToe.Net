@@ -72,15 +72,17 @@ a, a:visited, a:active {
 
 .top-left {
     position: absolute;
-    top: -12px;
-    left: -12px;
+    top: 0px;
+    left: 0px;
     transition: all .2s ease-in-out;
     border-radius: 50%;
     background-color: transparent;
+    padding: 5px;
 }
 .top-left img {
     width: 60px;
     height: 60px;
+    border-radius: 100% !important;
 }
 
 .top-left:hover {
