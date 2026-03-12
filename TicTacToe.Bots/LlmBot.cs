@@ -103,7 +103,7 @@ namespace TicTacToe.Bots
         public string GenerateRequestString(GameState state)
         {
             var prompt = GeneratePrompt(state);
-            var requestBody = new
+            dynamic requestBody = new
             {
                 model = Model,
                 messages = new[]
