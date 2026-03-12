@@ -116,9 +116,9 @@ namespace TicTacToe.UI.Web.Pages
             {
                 model = "o4-mini";
             }
-            else if (botName.EndsWith("-gpt5", StringComparison.OrdinalIgnoreCase))
+            else if (botName.EndsWith("-gpt5mini", StringComparison.OrdinalIgnoreCase))
             {
-                model = "gpt-5";
+                model = "gpt-5-mini";
             }
 
             _botName = $"{model}";

@@ -131,8 +131,7 @@ Bad Example:
 My move is: 4" 
                     },
                     new { role = "user", content = prompt }
-                },
-                temperature = 0.1
+                }
             };
 
             return JsonConvert.SerializeObject(requestBody);
