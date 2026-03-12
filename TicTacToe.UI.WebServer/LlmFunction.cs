@@ -21,9 +21,10 @@ namespace TicTacToe.UI.WebServer
             log.LogInformation("Request received to make a Llm bot move");
 
             GameState gameState;
+            string requestBody = "";
             try
             {
-                var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 
                 requestBody = requestBody.Replace("TicTacToe.UI.Web.Services.WebLlmBot, TicTacToe.UI.Web", "TicTacToe.Bots.LlmBot, TicTacToe.Bots");
                 requestBody = requestBody.Replace("TicTacToe.UI.Web.Services.WebHumanPlayer, TicTacToe.UI.Web", "TicTacToe.Bots.RandomMoveBot, TicTacToe.Bots");
@@ -63,8 +64,8 @@ namespace TicTacToe.UI.WebServer
             }
             catch (Exception e)
             {
-                log.LogError(e, "Unable to deserialize game state");
-                return new BadRequestObjectResult("Game state payload is invalid");
+                log.LogError(e, "Unable to deserialize game state: ", requestBody);
+                return new BadRequestObjectResult("Game state payload is invalid. " + e.Message);
             }
 
             try{
