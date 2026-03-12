@@ -146,7 +146,7 @@ My move is: 4";
                     new { role = "system", content = systemPrompt },
                     new { role = "user", content = prompt }
                 }
-            };
+            });
         }
 
         private bool SupportsReasoningEffort(string model)
