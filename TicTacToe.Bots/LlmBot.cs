@@ -102,14 +102,7 @@ namespace TicTacToe.Bots
 
         public string GenerateRequestString(GameState state)
         {
-            var prompt = GeneratePrompt(state);
-            dynamic requestBody = new
-            {
-                model = Model,
-                messages = new[]
-                {
-                    new { role = "system", content = 
-@"You are an expert Tic-Tac-Toe player. Your goal is to win, or force a draw if winning is impossible.
+            var systemPrompt = @"You are an expert Tic-Tac-Toe player. Your goal is to win, or force a draw if winning is impossible.
 
 You will be given the current board state represented as a 3x3 grid, where each cell shows its index (0-8) and the current occupant ('X', 'O', or '-' for empty).
 
@@ -128,16 +121,32 @@ Your response must consist of a SINGLE DIGIT ONLY. Absolutely no other text, wor
 Good Example:
 4
 Bad Example:
-My move is: 4" 
-                    },
+My move is: 4";
+            var prompt = GeneratePrompt(state);
+            if(SupportsReasoningEffort(Model))
+            {
+                var requestBody = new
+                {
+                    model = Model,
+                    reasoning_effort = "low",
+                    messages = new[]
+                    {
+                        new { role = "system", content = systemPrompt },
+                        new { role = "user", content = prompt }
+                    }
+                };
+                return JsonConvert.SerializeObject(requestBody);
+            }
+            var requestBody = new
+            {
+                model = Model,
+                temperature = 0.1,
+                messages = new[]
+                {
+                    new { role = "system", content = systemPrompt },
                     new { role = "user", content = prompt }
                 }
             };
-
-            if(SupportsReasoningEffort(Model))
-            {
-                requestBody.reasoning_effort = "low";
-            }            
 
             return JsonConvert.SerializeObject(requestBody);
         }

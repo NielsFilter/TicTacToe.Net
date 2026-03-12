@@ -25,40 +25,16 @@ namespace TicTacToe.UI.Web.Services
 
         public async Task<int> MakeMove(GameState state)
         {
-            var isOnline = true;
-            while (true)
+            try
             {
-                for (var i = 0; i < 3; i++)
-                {
-                    try
-                    {
-                        var move = await AskServerLlmAsync(state);
-                        if (!isOnline)
-                        {
-                            _onlineStateChanged(true);   
-                        }
-
-                        return move;
-                    }
-                    catch (JsonSerializationException)
-                    {
-                        throw;
-                    }
-                    catch (Exception)
-                    {
-                        if (isOnline)
-                        {
-                            isOnline = false;
-                            _onlineStateChanged(isOnline);
-                        }
-
-                        // wait a second and retry
-                        await Task.Delay(1000);
-                    }
-                }
-
-                // wait a bit before trying to connect again
-                await Task.Delay(5_000);
+                var move = await AskServerLlmAsync(state);
+                _onlineStateChanged(true);
+                return move;
+            }
+            catch (Exception)
+            {
+                _onlineStateChanged(false);
+                throw;
             }
         }
 
@@ -71,7 +47,13 @@ namespace TicTacToe.UI.Web.Services
             var serializedState = JsonConvert.SerializeObject(state, settings);
             using var content = new StringContent(serializedState, Encoding.UTF8, "application/json");
             using var response = await _httpClient.PostAsync($"/api/llm/{Model}", content);
+            
             var moveResponse = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Server returned {response.StatusCode}: {moveResponse}");
+            }
+
             return int.Parse(moveResponse);
         }
     }
