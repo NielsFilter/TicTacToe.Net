@@ -109,7 +109,8 @@ Analyze the board following this strategic hierarchy:
 7. Side: Play an empty side.
 
 After your analysis, output your final chosen move as a single integer response. 
-Example: 4" 
+Only respond with the move index, nothing else
+Example response: 4" 
                     },
                     new { role = "user", content = prompt }
                 },
@@ -138,7 +139,7 @@ Example: 4"
             }
             
             sb.AppendLine("Available moves (indexes): " + string.Join(", ", state.Board.AvailablePositions));
-            sb.AppendLine("Analyze the board and provide your best move.");
+            sb.AppendLine("Provide your best move, only respond with the move index, nothing else");
             
             return sb.ToString();
         }
