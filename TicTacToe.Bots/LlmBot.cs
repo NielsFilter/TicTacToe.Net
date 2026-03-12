@@ -134,7 +134,17 @@ My move is: 4"
                 }
             };
 
+            if(SupportsReasoningEffort(Model))
+            {
+                requestBody.reasoning_effort = "low";
+            }            
+
             return JsonConvert.SerializeObject(requestBody);
+        }
+
+        private bool SupportsReasoningEffort(string model)
+        {
+            return model != "gpt-3.5-turbo";
         }
 
         private string GeneratePrompt(GameState state)
