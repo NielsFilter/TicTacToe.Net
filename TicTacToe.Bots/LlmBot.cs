@@ -125,7 +125,7 @@ My move is: 4";
             var prompt = GeneratePrompt(state);
             if(SupportsReasoningEffort(Model))
             {
-                var requestBody = new
+                return JsonConvert.SerializeObject(new
                 {
                     model = Model,
                     reasoning_effort = "low",
@@ -134,10 +134,10 @@ My move is: 4";
                         new { role = "system", content = systemPrompt },
                         new { role = "user", content = prompt }
                     }
-                };
-                return JsonConvert.SerializeObject(requestBody);
+                });
             }
-            var requestBody = new
+            
+            return JsonConvert.SerializeObject(new
             {
                 model = Model,
                 temperature = 0.1,
@@ -147,8 +147,6 @@ My move is: 4";
                     new { role = "user", content = prompt }
                 }
             };
-
-            return JsonConvert.SerializeObject(requestBody);
         }
 
         private bool SupportsReasoningEffort(string model)
