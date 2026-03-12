@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -56,7 +57,7 @@ namespace TicTacToe.Bots
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
             }
 
-var respStr = "";
+            var respStr = "";
             try
             {
                 var response = await client.SendAsync(request);
@@ -68,13 +69,23 @@ var respStr = "";
                     var jObj = JObject.Parse(responseString);
                     var content = jObj?["choices"]?[0]?["message"]?["content"]?.ToString();
                     
-                    if (content != null && int.TryParse(content.Trim(), out int move))
+                    if (content != null)
                     {
-                        if (state.Board.AvailablePositions.Contains(move))
+                        if(int.TryParse(content.Trim(), out int move))
                         {
-                            return move;
+                            if (state.Board.AvailablePositions.Contains(move)) return move;
                         }
-                    }
+                        else
+                        {
+                            // Didn't get a single int response as hoped. Going to try to find the move number in the response
+                            var match = Regex.Match(content, @"\d+");
+                            if (match.Success && int.TryParse(match.Value, out int move))
+                            {
+                                if (state.Board.AvailablePositions.Contains(move)) return move;
+                            }
+                        }
+                        throw new Exception($"Unable to parse the response: {content}");
+                    } 
                 }
             }
             catch (Exception e)
@@ -111,9 +122,13 @@ Analyze the board following this strategic hierarchy:
 6. Corner: Play an empty corner.
 7. Side: Play an empty side.
 
-After your analysis, output your final chosen move as a single integer response. 
-Only respond with the move index, nothing else
-Example response: 4" 
+CRITICAL OUTPUT INSTRUCTION:
+Your response must consist of a SINGLE DIGIT ONLY. Absolutely no other text, words, punctuation, or explanations are allowed.
+
+Good Example:
+4
+Bad Example:
+My move is: 4" 
                     },
                     new { role = "user", content = prompt }
                 },
@@ -142,7 +157,7 @@ Example response: 4"
             }
             
             sb.AppendLine("Available moves (indexes): " + string.Join(", ", state.Board.AvailablePositions));
-            sb.AppendLine("Provide your best move, only respond with the move index, nothing else");
+            sb.AppendLine("Provide your best move, only the integer, Absolutely no other text, words, punctuation");
             
             return sb.ToString();
         }
