@@ -99,7 +99,7 @@ namespace TicTacToe.Bots
 
 You will be given the current board state represented as a 3x3 grid, where each cell shows its index (0-8) and the current occupant ('X', 'O', or '-' for empty).
 
-Before making a move, you MUST analyze the board in a <reasoning> block. Follow this strategic hierarchy:
+Analyze the board following this strategic hierarchy:
 1. Win: If you have two in a row, play the third to win.
 2. Block: If the opponent has two in a row, play the third to block them.
 3. Fork: Create an opportunity where you have two ways to win.
@@ -108,7 +108,7 @@ Before making a move, you MUST analyze the board in a <reasoning> block. Follow 
 6. Corner: Play an empty corner.
 7. Side: Play an empty side.
 
-After your reasoning, output your final chosen move as a single integer response. 
+After your analysis, output your final chosen move as a single integer response. 
 Example: 4" 
                     },
                     new { role = "user", content = prompt }
