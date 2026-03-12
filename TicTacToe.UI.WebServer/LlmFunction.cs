@@ -67,10 +67,17 @@ namespace TicTacToe.UI.WebServer
                 return new BadRequestObjectResult("Game state payload is invalid");
             }
 
-            var move = await gameState.PlayersTurn.MakeMove(gameState);
-            log.LogInformation("Llm bot move made. Returned move {0}", move);
+            try{
+                        var move = await gameState.PlayersTurn.MakeMove(gameState);
+                        log.LogInformation("Llm bot move made. Returned move {0}", move);
+                        return new OkObjectResult(move);
+            } catch(Exception e)
+            {
+                log.LogError(e, "Unable to make move. Msg : {0}", e.Message);
+                return new BadRequestObjectResult(e.Message);
+            }
+            
 
-            return new OkObjectResult(move);
         }
 
         private static void SetPlayersTurn(GameState gameState, IPlayer player)

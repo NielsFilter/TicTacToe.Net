@@ -56,6 +56,7 @@ namespace TicTacToe.Bots
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
             }
 
+var respStr = "";
             try
             {
                 var response = await client.SendAsync(request);
@@ -63,6 +64,7 @@ namespace TicTacToe.Bots
                 if (response.IsSuccessStatusCode)
                 {
                     var responseString = await response.Content.ReadAsStringAsync();
+                    respStr = responseString;
                     var jObj = JObject.Parse(responseString);
                     var content = jObj?["choices"]?[0]?["message"]?["content"]?.ToString();
                     
@@ -75,9 +77,10 @@ namespace TicTacToe.Bots
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // Fallback below
+                throw new Exception("Ex : " + e.GetType().Name + " | Msg : " + e.Message + " | " + respStr, e); //TODO: TESTING
             }
 
             // Fallback move (random)
