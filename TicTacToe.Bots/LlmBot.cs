@@ -131,13 +131,7 @@ Example: 4"
             for (int i = 0; i < 9; i++)
             {
                 int val = state.Board.Positions[i];
-                string symbol = val == 0 ? "0" : (val == 1 ? "X" : "O");
-                sb.Append(symbol);
-            }
-            for (int i = 0; i < 9; i++)
-            {
-                int val = state.Board.Positions[i];
-                string symbol = val == 0 ? i.ToString() : (val == 1 ? "X" : "O");
+                string symbol = val == 0 ? "-" : (val == 1 ? "X" : "O");
                 sb.Append(i + $": {symbol} ");
                 if (i % 3 == 2) sb.AppendLine("------------------");
                 else sb.Append("| ");
