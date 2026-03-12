@@ -126,8 +126,8 @@ Example: 4"
             string mySymbol = myPlayerNumber == 1 ? "X" : "O";
             
 
-            sb.AppendLine($"You are playing as: {mySymbol}");
-            sb.AppendLine($"Current board state:");
+            sb.AppendLine($"You are playing as '{mySymbol}'");
+            sb.AppendLine($"Current Board State:");
             for (int i = 0; i < 9; i++)
             {
                 int val = state.Board.Positions[i];
