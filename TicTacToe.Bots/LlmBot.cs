@@ -50,7 +50,23 @@ namespace TicTacToe.Bots
                 model = Model,
                 messages = new[]
                 {
-                    new { role = "system", content = systemRole + promptToExplainIndexes + exampleIndex },
+                    new { role = "system", content = 
+@"You are an expert Tic-Tac-Toe player. Your goal is to win, or force a draw if winning is impossible.
+
+You will be given the current board state represented as a 3x3 grid, where each cell shows its index (0-8) and the current occupant ('X', 'O', or '-' for empty).
+
+Before making a move, you MUST analyze the board in a <reasoning> block. Follow this strategic hierarchy:
+1. Win: If you have two in a row, play the third to win.
+2. Block: If the opponent has two in a row, play the third to block them.
+3. Fork: Create an opportunity where you have two ways to win.
+4. Block Fork: Block the opponent from creating a fork.
+5. Center: Play the center (index 4) if available.
+6. Corner: Play an empty corner.
+7. Side: Play an empty side.
+
+After your reasoning, output your final chosen move as a single integer response. 
+Example: 4" 
+                    },
                     new { role = "user", content = prompt }
                 },
                 temperature = 0.1
@@ -103,23 +119,29 @@ namespace TicTacToe.Bots
         private string GeneratePrompt(GameState state)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("Current TicTacToe board state:");
-            
             int myPlayerNumber = state.GetCurrentPlayersNumber();
             string mySymbol = myPlayerNumber == 1 ? "X" : "O";
             
-            sb.AppendLine();
+
+            sb.AppendLine($"You are playing as: {mySymbol}");
+            sb.AppendLine($"Current board state:");
             for (int i = 0; i < 9; i++)
             {
                 int val = state.Board.Positions[i];
                 string symbol = val == 0 ? "0" : (val == 1 ? "X" : "O");
                 sb.Append(symbol);
             }
+            for (int i = 0; i < 9; i++)
+            {
+                int val = state.Board.Positions[i];
+                string symbol = val == 0 ? i.ToString() : (val == 1 ? "X" : "O");
+                sb.Append(i + $": {symbol} ");
+                if (i % 3 == 2) sb.AppendLine("------------------");
+                else sb.Append("| ");
+            }
             
-            sb.AppendLine();
-            sb.AppendLine($"You are playing as: {mySymbol}");
             sb.AppendLine("Available moves (indexes): " + string.Join(", ", state.Board.AvailablePositions));
-            sb.AppendLine("Provide the index of the best move:");
+            sb.AppendLine("Analyze the board and provide your best move.");
             
             return sb.ToString();
         }
