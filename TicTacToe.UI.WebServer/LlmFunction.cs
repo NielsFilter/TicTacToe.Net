@@ -44,10 +44,14 @@ namespace TicTacToe.UI.WebServer
 
                 if (gameState.Player1 is TicTacToe.Bots.LlmBot bot1){
                     log.LogInformation("Player1 is LlmBot");
+                    var requestStr = bot1.GenerateRequestString(gameState);
+                    log.LogInformation(requestStr);
                     bot1.Model = model;
                 } 
                 if (gameState.Player2 is TicTacToe.Bots.LlmBot bot2){
                     log.LogInformation("Player2 is LlmBot");
+                    var requestStr = bot2.GenerateRequestString(gameState);
+                    log.LogInformation(requestStr);
                      bot2.Model = model;
                 }
 
