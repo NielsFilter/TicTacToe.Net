@@ -91,7 +91,7 @@ namespace TicTacToe.Bots
             catch (Exception e)
             {
                 // Fallback below
-                throw new Exception("Ex : " + e.GetType().Name + " | Msg : " + e.Message + " | " + respStr, e); //TODO: TESTING
+                return;
             }
 
             // Fallback move (random)

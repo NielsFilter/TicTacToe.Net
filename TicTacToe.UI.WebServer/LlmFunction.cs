@@ -43,18 +43,8 @@ namespace TicTacToe.UI.WebServer
                 
                 log.LogInformation("Llm bot model is {0}", model);
 
-                if (gameState.Player1 is TicTacToe.Bots.LlmBot bot1){
-                    log.LogInformation("Player1 is LlmBot");
-                    var requestStr = bot1.GenerateRequestString(gameState);
-                    log.LogInformation(requestStr);
-                    bot1.Model = model;
-                } 
-                if (gameState.Player2 is TicTacToe.Bots.LlmBot bot2){
-                    log.LogInformation("Player2 is LlmBot");
-                    var requestStr = bot2.GenerateRequestString(gameState);
-                    log.LogInformation(requestStr);
-                     bot2.Model = model;
-                }
+                if (gameState.Player1 is TicTacToe.Bots.LlmBot bot1) bot1.Model = model;
+                if (gameState.Player2 is TicTacToe.Bots.LlmBot bot2) bot2.Model = model;
 
                 var player = gameState.Player1.Type == gameState.PlayersTurn.Type
                     ? gameState.Player1
@@ -68,17 +58,8 @@ namespace TicTacToe.UI.WebServer
                 return new BadRequestObjectResult("Game state payload is invalid. " + e.Message);
             }
 
-            try{
-                        var move = await gameState.PlayersTurn.MakeMove(gameState);
-                        log.LogInformation("Llm bot move made. Returned move {0}", move);
-                        return new OkObjectResult(move);
-            } catch(Exception e)
-            {
-                log.LogError(e, "Unable to make move. Msg : {0}", e.Message);
-                return new BadRequestObjectResult(e.Message);
-            }
-            
-
+            var move = await gameState.PlayersTurn.MakeMove(gameState);
+            log.LogInformation("Llm bot move made. Returned move {0}", move);           
         }
 
         private static void SetPlayersTurn(GameState gameState, IPlayer player)
