@@ -60,7 +60,7 @@ namespace TicTacToe.UI.WebServer
 
             var move = await gameState.PlayersTurn.MakeMove(gameState);
             log.LogInformation("Llm bot move made. Returned move {0}", move);           
-            return move;
+            return new OkObjectResult(move);
         }
 
         private static void SetPlayersTurn(GameState gameState, IPlayer player)
