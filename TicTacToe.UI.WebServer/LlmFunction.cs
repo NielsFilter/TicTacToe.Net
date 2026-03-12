@@ -40,8 +40,16 @@ namespace TicTacToe.UI.WebServer
                     return new BadRequestObjectResult("Unable to deserialize the Game state payload");
                 }
                 
-                if (gameState.Player1 is TicTacToe.Bots.LlmBot bot1) bot1.Model = model;
-                if (gameState.Player2 is TicTacToe.Bots.LlmBot bot2) bot2.Model = model;
+                log.LogInformation("Llm bot model is {0}", model);
+
+                if (gameState.Player1 is TicTacToe.Bots.LlmBot bot1){
+                    log.LogInformation("Player1 is LlmBot");
+                    bot1.Model = model;
+                } 
+                if (gameState.Player2 is TicTacToe.Bots.LlmBot bot2){
+                    log.LogInformation("Player2 is LlmBot");
+                     bot2.Model = model;
+                }
 
                 var player = gameState.Player1.Type == gameState.PlayersTurn.Type
                     ? gameState.Player1
