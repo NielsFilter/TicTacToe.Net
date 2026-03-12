@@ -72,7 +72,10 @@ Example: 4"
                 temperature = 0.1
             };
 
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+            var requestBodyString = JsonConvert.SerializeObject(requestBody);
+            Console.WriteLine(requestBodyString);
+
+            var jsonContent = new StringContent(requestBodyString, Encoding.UTF8, "application/json");
             
             var client = HttpClient ?? _staticHttpClient;
             var endpoint = EndpointUrl;
