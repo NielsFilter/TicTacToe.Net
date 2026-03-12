@@ -70,7 +70,7 @@ namespace TicTacToe.UI.Web.Services
             };
             var serializedState = JsonConvert.SerializeObject(state, settings);
             using var content = new StringContent(serializedState, Encoding.UTF8, "application/json");
-            using var response = await _httpClient.PostAsync($"/api/llm/{model}", content);
+            using var response = await _httpClient.PostAsync($"/api/llm/{Model}", content);
             var moveResponse = await response.Content.ReadAsStringAsync();
             return int.Parse(moveResponse);
         }
