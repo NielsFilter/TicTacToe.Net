@@ -152,7 +152,7 @@ My move is: 4"
                 int val = state.Board.Positions[i];
                 string symbol = val == 0 ? "-" : (val == 1 ? "X" : "O");
                 sb.Append(i + $": {symbol} ");
-                if (i % 3 == 2) sb.AppendLine("------------------");
+                if (i % 3 == 2) sb.AppendLine("\n------------------");
                 else sb.Append("| ");
             }
             
