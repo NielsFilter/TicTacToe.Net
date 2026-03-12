@@ -91,7 +91,6 @@ namespace TicTacToe.Bots
             catch (Exception e)
             {
                 // Fallback below
-                return;
             }
 
             // Fallback move (random)
