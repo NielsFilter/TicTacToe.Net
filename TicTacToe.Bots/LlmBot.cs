@@ -79,9 +79,9 @@ namespace TicTacToe.Bots
                         {
                             // Didn't get a single int response as hoped. Going to try to find the move number in the response
                             var match = Regex.Match(content, @"\d+");
-                            if (match.Success && int.TryParse(match.Value, out int move))
+                            if (match.Success && int.TryParse(match.Value, out int parsedMove))
                             {
-                                if (state.Board.AvailablePositions.Contains(move)) return move;
+                                if (state.Board.AvailablePositions.Contains(parsedMove)) return parsedMove;
                             }
                         }
                         throw new Exception($"Unable to parse the response: {content}");
