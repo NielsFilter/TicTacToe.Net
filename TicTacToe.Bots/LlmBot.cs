@@ -110,9 +110,6 @@ Analyze the board following this strategic hierarchy:
 2. Block: If the opponent has two in a row, play the third to block them.
 3. Fork: Create an opportunity where you have two ways to win.
 4. Block Fork: Block the opponent from creating a fork.
-5. Center: Play the center (index 4) if available.
-6. Corner: Play an empty corner.
-7. Side: Play an empty side.
 
 CRITICAL OUTPUT INSTRUCTION:
 Your response must consist of a SINGLE DIGIT ONLY. Absolutely no other text, words, punctuation, or explanations are allowed.
@@ -139,7 +136,7 @@ My move is: 4";
             return JsonConvert.SerializeObject(new
             {
                 model = Model,
-                temperature = 0.1,
+                temperature = 0.4,
                 messages = new[]
                 {
                     new { role = "system", content = systemPrompt },
